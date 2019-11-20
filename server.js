@@ -70,8 +70,8 @@ app.put('/new-incident', (req, res) => {
 	let dateTime = req.body.date + "T" + req.body.time;
 	let things = [req.body.case_number, dateTime, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block];
 	let placeholders = things.map((things) => '(?)').join(',');
-	let sql = 'INSERT INTO Incidents(name) VALUES ' + placeholders;
-	
+	let sql = 'INSERT INTO Incidents(case_number, date_time, code, incident, police_grid, neighborhood_number, block) VALUES ' + placeholders;
+
 	db.run(sql, things,(err) => {
 		if(err)
 		{
