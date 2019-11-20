@@ -20,11 +20,34 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 
 app.get('/codes', (req, res) => {
 	var codes = {};
+	console.log(JSON.stringify(req));
+	if(req != null)
+	{
+		//var codeReq = req.code.split(",");
+	}
+	var format = req.format;
+
 
 	db.all('SELECT * FROM Codes', (err, rows) => {
 		rows.forEach(incident => {
+			if(req == null)
+			{
 				let key = "C" + incident.code;
 				codes[key] = incident.incident_type;
+			}
+			else
+			{
+				/*
+				for(let i = 0; i < codeReq.length; i++)
+				{
+					if(incident.code == codeReq[i])
+					{
+						let key = "C" + incident.code;
+						codes[key] = incident.incident_type;
+					}
+				}
+				*/
+			}
 		});
 
 		res.type('json').send(codes);
