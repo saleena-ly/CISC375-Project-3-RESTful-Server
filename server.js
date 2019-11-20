@@ -68,7 +68,11 @@ app.get('/incidents', (req, res) => {
 
 app.put('/new-incident', (req, res) => {
 	let dateTime = req.body.date + "T" + req.body.time;
-	db.run(`INSERT INTO Incidents(case_number, date_time, code, incident, police_grid, neighborhood_number, block) VALUES(?), (?), (?), (?), (?), (?), (?)`, [req.body.case_number, dateTime, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block],(err) => {
+	let things = [req.body.case_number, dateTime, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block];
+	let placeholders = things.map((things) => '(?)').join(',');
+	let sql = 'INSERT INTO Incidents(name) VALUES ' + placeholders;
+	
+	db.run(sql, things,(err) => {
 		if(err)
 		{
 			res.status(500).send(err.message);
