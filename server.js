@@ -72,6 +72,10 @@ app.get('/neighborhoods', (req, res) => {
 
 
 	db.all('SELECT * FROM Neighborhoods', (err, rows) => {
+		if(err)
+		{
+			WriteCustom404Error(res, `no data for neighborhoods`);
+		}
 		rows.forEach(neighborhood => {
 			if(req.query.id == null || idReq[0] == '')
 			{
@@ -105,21 +109,55 @@ app.get('/neighborhoods', (req, res) => {
 
 app.get('/incidents', (req, res) => {
 	var incidents = {};
+	var query = " WHERE";
+	if(req.query.start_date != null)
+	{
+		//var startDateReq = req.query.start_date.split(",");
+		query = query + req.query.start_date;
+	}
+	if(req.query.end_date != null)
+	{
+		//var endDateReq = req.query.end_date.split(",");
+		query = query + req.query.end_date;
+	}
+	if(req.query.code != null)
+	{
+		//var codeReq = req.query.code.split(",");
+		query = query + req.query.code;
+	}
+	if(req.query.grid != null)
+	{
+		//var gridReq = req.query.grid.split(",");
+		query = query + req.query.grid;
+	}
+	if(req.query.neighborhood != null)
+	{
+		//var neighborhoodReq = req.query.neighborhood.split(",");
+		query = query + req.query.neighborhood;
+	}
+	if(req.query.limit != null)
+	{
+		//var limitReq = req.query.limit.split(",");
+		query = query + req.query.limit;
+	}
 
-	db.all('SELECT * FROM Incidents', (err, rows) => {
+	db.all('SELECT * FROM Incidents' + query, (err, rows) => {
 		rows.forEach(incident => {
-			let key = "I" + incident.case_number;
-			let dateTime = incident.date_time.split("T");
-			let date = dateTime[0];
-			let time = dateTime[1];
-			incidents[key] = {
-				"date" : date,
-				"time" : time,
-				"code" : incident.code,
-				"incident" : incident.incident,
-				"police_grid" : incident.police_grid,
-				"neighborhood_number" : incident.neighboorhood_number,
-				"block" : incident.block
+			if(req.query.id != null && idReq[0] != '')
+			{
+				let key = "I" + incident.case_number;
+				let dateTime = incident.date_time.split("T");
+				let date = dateTime[0];
+				let time = dateTime[1];
+				incidents[key] = {
+					"date" : date,
+					"time" : time,
+					"code" : incident.code,
+					"incident" : incident.incident,
+					"police_grid" : incident.police_grid,
+					"neighborhood_number" : incident.neighboorhood_number,
+					"block" : incident.block
+				}
 			}
 		});
 		if(req.query.format == "xml")
@@ -147,6 +185,20 @@ app.put('/new-incident', (req, res) => {
 		}
 	});
 });
+
+let WriteCustom404Error = (res, reason) => {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    //read the 404 template and insert the custom reason
+    ReadFile(path.join(template_dir, '404.html'))
+        .then(template => {
+            template = template.replace('<p class ="error-reason">page not found</p>',
+                `<p class ="error-reason">${reason}</p>`);
+
+            res.write(template);
+            res.end();
+        })
+        .catch(err => { console.log(err); });
+}
 
 app.listen(port);
 console.log("listening to port " + port + "...");
