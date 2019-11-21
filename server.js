@@ -163,7 +163,6 @@ app.get('/incidents', (req, res) => {
 	}
 	if(req.query.id != null && req.query.id!=''){
 		var idReq = req.query.id.split(",");
-		console.log(idReq[0]);
 		if(first == true){
 			query = query + ' (neighborhood_number=' + idReq[0];
 			for(let i = 1; i < idReq.length; i++){
