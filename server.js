@@ -109,55 +109,74 @@ app.get('/neighborhoods', (req, res) => {
 
 app.get('/incidents', (req, res) => {
 	var incidents = {};
-	var query = " WHERE";
-	if(req.query.start_date != null)
+	var query = " ORDER BY date_time DEC WHERE ";
+
+	if(req.query.start_date != null && req.query.end_date != null)
 	{
-		//var startDateReq = req.query.start_date.split(",");
-		query = query + req.query.start_date;
+		let start = req.query.start_date + "T00:00:00";
+		let end = req.query.end_date + "T24:00:00";
+		query = query + " AND date_time BETWEEN '" + start + "' and '" + end + "'";
 	}
-	if(req.query.end_date != null)
+	else if(req.query.start_date != null)
 	{
-		//var endDateReq = req.query.end_date.split(",");
-		query = query + req.query.end_date;
+		let start = req.query.start_date + "T00:00:00";
+		query = query + " AND date_time BETWEEN '" + start + "' and '2019-11-13T24:00:00'";
 	}
+	else if(req.query.end_date != null)
+	{
+		let end = req.query.end_date + "T24:00:00";
+		query = query + " AND date_time BETWEEN '2014-08-14T00:00:00' and '" + end + "'";
+	}
+
 	if(req.query.code != null)
 	{
-		//var codeReq = req.query.code.split(",");
-		query = query + req.query.code;
+		var codeReq = req.query.code.split(",");
+		query = query + " AND code IN (" + codeReq[0];
+		for(let i = 1; i < codeReq.length; i++)
+		{
+			query = query + "," + codeReq[i];
+		}
+		query = query + ")";
 	}
 	if(req.query.grid != null)
 	{
-		//var gridReq = req.query.grid.split(",");
-		query = query + req.query.grid;
+		var gridReq = req.query.grid.split(",");
+		query = query + " AND police_grid IN (" + gridReq[0];
+		for(let i = 1; i < gridReq.length; i++)
+		{
+			query = query + "," + gridReq[i];
+		}
+		query = query + ")";
 	}
 	if(req.query.neighborhood != null)
 	{
-		//var neighborhoodReq = req.query.neighborhood.split(",");
-		query = query + req.query.neighborhood;
+		var neighborhoodReq = req.query.neighborhood.split(",");
+		query = query + " AND neighborhood_number IN (" + neighborhoodReq[0];
+		for(let i = 1; i < neighborhoodReq.length; i++)
+		{
+			query = query + "," + neighborhoodReq[i];
+		}
+		query = query + ")";
 	}
 	if(req.query.limit != null)
 	{
-		//var limitReq = req.query.limit.split(",");
-		query = query + req.query.limit;
+		query = query + " LIMIT " + req.query.limit;
 	}
 
 	db.all('SELECT * FROM Incidents' + query, (err, rows) => {
 		rows.forEach(incident => {
-			if(req.query.id != null && idReq[0] != '')
-			{
-				let key = "I" + incident.case_number;
-				let dateTime = incident.date_time.split("T");
-				let date = dateTime[0];
-				let time = dateTime[1];
-				incidents[key] = {
-					"date" : date,
-					"time" : time,
-					"code" : incident.code,
-					"incident" : incident.incident,
-					"police_grid" : incident.police_grid,
-					"neighborhood_number" : incident.neighboorhood_number,
-					"block" : incident.block
-				}
+			let key = "I" + incident.case_number;
+			let dateTime = incident.date_time.split("T");
+			let date = dateTime[0];
+			let time = dateTime[1];
+			incidents[key] = {
+				"date" : date,
+				"time" : time,
+				"code" : incident.code,
+				"incident" : incident.incident,
+				"police_grid" : incident.police_grid,
+				"neighborhood_number" : incident.neighboorhood_number,
+				"block" : incident.block
 			}
 		});
 		if(req.query.format == "xml")
