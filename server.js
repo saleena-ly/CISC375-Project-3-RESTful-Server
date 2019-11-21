@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var sqlite3 = require('sqlite3');
+var json2xml = require('js2xmlparser');
 var bodyParser = require('body-parser');
 var port = 8000;
 var db_filename = path.join(__dirname, 'db', 'stpaul_crime.sqlite3');
@@ -20,24 +21,23 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 
 app.get('/codes', (req, res) => {
 	var codes = {};
-	console.log(JSON.stringify(req));
-	if(req != null)
+	console.log(req.query.code);
+	if(req.query.code != null)
 	{
-		//var codeReq = req.code.split(",");
+		var codeReq = req.query.code.split(",");
 	}
-	var format = req.format;
+	var format = req.query.format;
 
 
 	db.all('SELECT * FROM Codes', (err, rows) => {
 		rows.forEach(incident => {
-			if(req == null)
+			if(req.query.code == null || codeReq[0] == '')
 			{
 				let key = "C" + incident.code;
 				codes[key] = incident.incident_type;
 			}
 			else
 			{
-				/*
 				for(let i = 0; i < codeReq.length; i++)
 				{
 					if(incident.code == codeReq[i])
@@ -46,23 +46,60 @@ app.get('/codes', (req, res) => {
 						codes[key] = incident.incident_type;
 					}
 				}
-				*/
 			}
 		});
 
-		res.type('json').send(codes);
+		if(req.query.format == "xml")
+		{
+			codes = json2xml.parse("codes", codes);
+			res.type('xml').send(codes);
+		}
+		else
+		{
+			res.type('json').send(codes);
+		}
 	});
 });
 
 app.get('/neighborhoods', (req, res) => {
 	var neighborhoods = {};
+	console.log(req.query.id);
+	if(req.query.id != null)
+	{
+		var idReq = req.query.id.split(",");
+	}
+	var format = req.query.format;
+
 
 	db.all('SELECT * FROM Neighborhoods', (err, rows) => {
 		rows.forEach(neighborhood => {
-			let key = "N" + neighborhood.neighborhood_number;
-			neighborhoods[key] = neighborhood.neighborhood_name;
+			if(req.query.id == null || idReq[0] == '')
+			{
+				let key = "C" + neighborhood.neighborhood_number;
+				neighborhoods[key] = neighborhood.neighborhood_name;
+			}
+			else
+			{
+				for(let i = 0; i < idReq.length; i++)
+				{
+					if(neighborhood.neighborhood_number == idReq[i])
+					{
+						let key = "C" + neighborhood.neighborhood_number;
+						neighborhoods[key] = neighborhood.neighborhood_name;
+					}
+				}
+			}
 		});
-		res.type('json').send(neighborhoods);
+
+		if(req.query.format == "xml")
+		{
+			neighborhoods = json2xml.parse("neighborhoodIds", neighborhoods);
+			res.type('xml').send(neighborhoods);
+		}
+		else
+		{
+			res.type('json').send(neighborhoods);
+		}
 	});
 });
 
@@ -85,7 +122,15 @@ app.get('/incidents', (req, res) => {
 				"block" : incident.block
 			}
 		});
-		res.type('json').send(incidents);
+		if(req.query.format == "xml")
+		{
+			incidents = json2xml.parse("incidents", incidents);
+			res.type('xml').send(incidents);
+		}
+		else
+		{
+			res.type('json').send(incidents);
+		}
 	});
 });
 
