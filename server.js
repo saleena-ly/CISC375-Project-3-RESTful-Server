@@ -188,13 +188,15 @@ app.get('/incidents', (req, res) => {
 	}
 
 	db.all('SELECT * FROM Incidents WHERE' + query + ' ORDER BY date_time LIMIT ' + limit, (err, rows) => {
-		console.log('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit);
-
 		rows.forEach(incident => {
 			let key = "I" + incident.case_number;
 			let dateTime = incident.date_time.split("T");
 			let date = dateTime[0];
 			let time = dateTime[1];
+			if(time.includes("."));
+			{
+				time = time.substring(0, time.indexOf("."));
+			}
 			incidents[key] = {
 				"date" : date,
 				"time" : time,
