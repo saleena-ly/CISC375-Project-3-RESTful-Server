@@ -109,75 +109,102 @@ app.get('/neighborhoods', (req, res) => {
 
 app.get('/incidents', (req, res) => {
 	var incidents = {};
-	var query = " ORDER BY date_time DEC WHERE ";
-
-	if(req.query.start_date != null && req.query.end_date != null)
-	{
-		let start = req.query.start_date + "T00:00:00";
-		let end = req.query.end_date + "T24:00:00";
-		query = query + " AND date_time BETWEEN '" + start + "' and '" + end + "'";
+	var query = "WHERE";
+	var first = true;
+	
+	if(req.query.start_date != null && req.query.start_date!=''){
+		query = query + ' AND date>=' + req.query.start_date;
+		first = false;
 	}
-	else if(req.query.start_date != null)
-	{
-		let start = req.query.start_date + "T00:00:00";
-		query = query + " AND date_time BETWEEN '" + start + "' and '2019-11-13T24:00:00'";
+	if(req.query.end_date != null && req.query.end_date!=''){
+		if(first == true){
+			query = query + ' date_time<=' + req.query.end_date + 'T23:59:59';
+			first = false;
+		}
+		else{
+			query = query + ' AND date_time<=' + req.query.end_date + 'T23:59:59';
+		}
 	}
-	else if(req.query.end_date != null)
-	{
-		let end = req.query.end_date + "T24:00:00";
-		query = query + " AND date_time BETWEEN '2014-08-14T00:00:00' and '" + end + "'";
-	}
-
-	if(req.query.code != null)
-	{
+	if(req.query.code != null && req.query.code!=''){
 		var codeReq = req.query.code.split(",");
-		query = query + " AND code IN (" + codeReq[0];
-		for(let i = 1; i < codeReq.length; i++)
-		{
-			query = query + "," + codeReq[i];
+		if(first == true){
+			query = query + ' (code=' + codeReq[0];
+			for(let i = 1; i < codeReq.length; i++){
+				query = query + ' OR code=' + codeReq[i];
+			}
+
+			first = false;
 		}
-		query = query + ")";
+		else{
+			query = query + ' AND (code=' + codeReq[0];
+			for(let i = 1; i < codeReq.length; i++){
+				query = query + ' OR code=' + codeReq[i];
+			}
+		}
+		query = query + ')';
 	}
-	if(req.query.grid != null)
-	{
+	if(req.query.grid != null && req.query.grid!=''){
 		var gridReq = req.query.grid.split(",");
-		query = query + " AND police_grid IN (" + gridReq[0];
-		for(let i = 1; i < gridReq.length; i++)
-		{
-			query = query + "," + gridReq[i];
+		if(first == true){
+			query = query + ' (police_grid=' + gridReq[0];
+			for(let i = 1; i < gridReq.length; i++){
+				query = query + ' OR police_grid=' + gridReq[i];
+			}
+
+			first = false;
 		}
-		query = query + ")";
+		else{
+			query = query + ' AND (police_grid=' + gridReq[0];
+			for(let i = 1; i < gridReq.length; i++){
+				query = query + ' OR police_grid=' + gridReq[i];
+			}
+		}	
+		query = query + ')';
 	}
-	if(req.query.neighborhood != null)
-	{
-		var neighborhoodReq = req.query.neighborhood.split(",");
-		query = query + " AND neighborhood_number IN (" + neighborhoodReq[0];
-		for(let i = 1; i < neighborhoodReq.length; i++)
-		{
-			query = query + "," + neighborhoodReq[i];
+	if(req.query.id != null && req.query.id!=''){
+		var idReq = req.query.id.split(",");
+		console.log(idReq[0]);
+		if(first == true){
+			query = query + ' (neighborhood_number=' + idReq[0];
+			for(let i = 1; i < idReq.length; i++){
+				query = query + ' OR neighborhood_number=' + idReq[i];
+			}
+
+			first = false;
 		}
-		query = query + ")";
+		else{
+			query = query + ' AND (neighborhood_number=' + idReq[0];
+			for(let i = 1; i < idReq.length; i++){
+				query = query + ' OR neighborhood_number=' + idReq[i];
+			}
+		}	
+		query = query + ')';
 	}
-	if(req.query.limit != null)
-	{
-		query = query + " LIMIT " + req.query.limit;
+	if(req.query.limit != null && req.query.limit!=''){
+		var limit = req.query.limit;
+	}
+	else{
+		var limit = 10000;
 	}
 
-	db.all('SELECT * FROM Incidents' + query, (err, rows) => {
+	db.all('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit, (err, rows) => {
+		console.log('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit);
+
 		rows.forEach(incident => {
-			let key = "I" + incident.case_number;
-			let dateTime = incident.date_time.split("T");
-			let date = dateTime[0];
-			let time = dateTime[1];
-			incidents[key] = {
-				"date" : date,
-				"time" : time,
-				"code" : incident.code,
-				"incident" : incident.incident,
-				"police_grid" : incident.police_grid,
-				"neighborhood_number" : incident.neighboorhood_number,
-				"block" : incident.block
-			}
+console.log(incident.date_time);
+				let key = "I" + incident.case_number;
+				let dateTime = incident.date_time.split("T");
+				let date = dateTime[0];
+				let time = dateTime[1];
+				incidents[key] = {
+					"date" : date,
+					"time" : time,
+					"code" : incident.code,
+					"incident" : incident.incident,
+					"police_grid" : incident.police_grid,
+					"neighborhood_number" : incident.neighborhood_number,
+					"block" : incident.block
+				}
 		});
 		if(req.query.format == "xml")
 		{
