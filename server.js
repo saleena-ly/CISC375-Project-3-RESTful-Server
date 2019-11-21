@@ -109,20 +109,20 @@ app.get('/neighborhoods', (req, res) => {
 
 app.get('/incidents', (req, res) => {
 	var incidents = {};
-	var query = "WHERE";
+	var query = "";
 	var first = true;
 
 	if(req.query.start_date != null && req.query.start_date!=''){
-		query = query + ' date_time>=' + req.query.start_date + 'T00:00:00';
+		query = query + ' date_time>=' + "'" + req.query.start_date + 'T00:00:00' + "'";
 		first = false;
 	}
 	if(req.query.end_date != null && req.query.end_date!=''){
 		if(first == true){
-			query = query + ' date_time<=' + req.query.end_date + 'T23:59:59';
+			query = query + ' date_time<=' + "'" + req.query.end_date + 'T23:59:59' + "'";
 			first = false;
 		}
 		else{
-			query = query + ' AND date_time<=' + req.query.end_date + 'T23:59:59';
+			query = query + ' AND date_time<=' + "'" + req.query.end_date + 'T23:59:59' + "'";
 		}
 	}
 	if(req.query.code != null && req.query.code!=''){
@@ -187,24 +187,23 @@ app.get('/incidents', (req, res) => {
 		var limit = 10000;
 	}
 
-	db.all('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit, (err, rows) => {
+	db.all('SELECT * FROM Incidents WHERE' + query + ' ORDER BY date_time LIMIT ' + limit, (err, rows) => {
 		console.log('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit);
 
 		rows.forEach(incident => {
-console.log(incident.date_time);
-				let key = "I" + incident.case_number;
-				let dateTime = incident.date_time.split("T");
-				let date = dateTime[0];
-				let time = dateTime[1];
-				incidents[key] = {
-					"date" : date,
-					"time" : time,
-					"code" : incident.code,
-					"incident" : incident.incident,
-					"police_grid" : incident.police_grid,
-					"neighborhood_number" : incident.neighborhood_number,
-					"block" : incident.block
-				}
+			let key = "I" + incident.case_number;
+			let dateTime = incident.date_time.split("T");
+			let date = dateTime[0];
+			let time = dateTime[1];
+			incidents[key] = {
+				"date" : date,
+				"time" : time,
+				"code" : incident.code,
+				"incident" : incident.incident,
+				"police_grid" : incident.police_grid,
+				"neighborhood_number" : incident.neighborhood_number,
+				"block" : incident.block
+			}
 		});
 		if(req.query.format == "xml")
 		{
