@@ -111,9 +111,9 @@ app.get('/incidents', (req, res) => {
 	var incidents = {};
 	var query = "WHERE";
 	var first = true;
-	
+
 	if(req.query.start_date != null && req.query.start_date!=''){
-		query = query + ' AND date>=' + req.query.start_date;
+		query = query + ' date_time>=' + req.query.start_date + 'T00:00:00';
 		first = false;
 	}
 	if(req.query.end_date != null && req.query.end_date!=''){
@@ -158,7 +158,7 @@ app.get('/incidents', (req, res) => {
 			for(let i = 1; i < gridReq.length; i++){
 				query = query + ' OR police_grid=' + gridReq[i];
 			}
-		}	
+		}
 		query = query + ')';
 	}
 	if(req.query.id != null && req.query.id!=''){
@@ -177,7 +177,7 @@ app.get('/incidents', (req, res) => {
 			for(let i = 1; i < idReq.length; i++){
 				query = query + ' OR neighborhood_number=' + idReq[i];
 			}
-		}	
+		}
 		query = query + ')';
 	}
 	if(req.query.limit != null && req.query.limit!=''){
