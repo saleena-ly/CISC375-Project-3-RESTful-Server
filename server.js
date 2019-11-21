@@ -191,20 +191,19 @@ app.get('/incidents', (req, res) => {
 		console.log('SELECT * FROM Incidents ' + query + ' ORDER BY date_time LIMIT ' + limit);
 
 		rows.forEach(incident => {
-console.log(incident.date_time);
-				let key = "I" + incident.case_number;
-				let dateTime = incident.date_time.split("T");
-				let date = dateTime[0];
-				let time = dateTime[1];
-				incidents[key] = {
-					"date" : date,
-					"time" : time,
-					"code" : incident.code,
-					"incident" : incident.incident,
-					"police_grid" : incident.police_grid,
-					"neighborhood_number" : incident.neighborhood_number,
-					"block" : incident.block
-				}
+			let key = "I" + incident.case_number;
+			let dateTime = incident.date_time.split("T");
+			let date = dateTime[0];
+			let time = dateTime[1];
+			incidents[key] = {
+				"date" : date,
+				"time" : time,
+				"code" : incident.code,
+				"incident" : incident.incident,
+				"police_grid" : incident.police_grid,
+				"neighborhood_number" : incident.neighborhood_number,
+				"block" : incident.block
+			}
 		});
 		if(req.query.format == "xml")
 		{
