@@ -248,3 +248,34 @@ let WriteCustom404Error = (res, reason) => {
 
 app.listen(port);
 console.log("listening to port " + port + "...");
+
+Vue.component('map', {
+	template: `
+	
+	`,
+	data()
+	{
+		return
+		{
+
+		}
+	},
+	methods: 
+	{
+		
+	}
+});
+
+Vue.component('table', {
+
+});
+
+var app = new Vue({
+	el: '#app',
+	data: {
+
+	},
+	methods: {
+
+	}
+});
