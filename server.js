@@ -4,11 +4,13 @@ var express = require('express');
 var sqlite3 = require('sqlite3');
 var json2xml = require('js2xmlparser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 var port = 8000;
 var db_filename = path.join(__dirname, 'db', 'stpaul_crime.sqlite3');
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true})); //takes uploaded data and changes it from random string values to actual keys and values
+app.use(cors());
 
 var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
     if (err) {
