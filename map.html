@@ -60,11 +60,15 @@
 			}
 		});
 		
-		$.get(window.location.hash.substring(8, window.location.hash.length), function(data){
-			//console.log(data);
-			app.incidents = data;
-			console.log(app.incidents);
-		});
+		function Init(crime_api_url)
+		{
+			//simulate an HTTP redirect
+			$.get(crime_api_url + '/incidents?start_date=2019-10-1$end_date=2019-10-31', function(data)
+			{
+				app.incients = data;
+				console.log(app.incidents);
+			});
+		}
 		
 		var myIcon = L.icon({
 			iconUrl: 'images/icon.png',
