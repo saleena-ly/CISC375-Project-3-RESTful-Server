@@ -53,25 +53,29 @@
 	
 	<div id="app">
 		<div class="scroll_table" style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
-			<table>
-				<thead>
-					<th>Case Number</th>
-					<th>Incident Type</th>
-					<th>Incident</th>
-					<th>Date/Time</th>
-					<th>Police Grid</th>
-					<th>Block</th>
-					<th>Neighborhood Name</th>
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Case Number</th>
+						<th scope="col">Incident Type</th>
+						<th scope="col">Incident</th>
+						<th scope="col">Date/Time</th>
+						<th scope="col">Police Grid</th>
+						<th scope="col">Block</th>
+						<th scope="col">Neighborhood Name</th>
+					</tr>
 				</thead>
-				<tr v-for="incident in incidents">
-					<td>{{incident.case_number}}</td>
-					<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
-					<td>{{incident.incident}}</td>
-					<td>{{incident.date_time}}</td>
-					<td>{{incident.police_grid}}</td>
-					<td>{{incident.block}}</td>
-					<td>{{incident.neighborhood_number}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
-				</tr>
+				<tbody>
+					<tr v-for="incident in incidents">
+						<td scope="row">{{incident.case_number}}</td>
+						<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
+						<td>{{incident.incident}}</td>
+						<td>{{incident.date_time}}</td>
+						<td>{{incident.police_grid}}</td>
+						<td>{{incident.block}}</td>
+						<td>{{incident.neighborhood_number}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
