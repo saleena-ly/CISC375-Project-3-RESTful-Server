@@ -39,8 +39,6 @@
                 }
             });
         }
-
-        
     </script>
 
 </head>
@@ -56,50 +54,39 @@
 	
 	<div id="app">
 		<div class="scroll_table" style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
-			<table class="table">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Case Number</th>
-						<th scope="col">Incident Type</th>
-						<th scope="col">Incident</th>
-						<th scope="col">Date/Time</th>
-						<th scope="col">Police Grid</th>
-						<th scope="col">Block</th>
-						<th scope="col">Neighborhood Name</th>
-					</tr>
+			<table>
+				<thead>
+					<th>Case Number</th>
+					<th>Incident Type</th>
+					<th>Incident</th>
+					<th>Date/Time</th>
+					<th>Police Grid</th>
+					<th>Block</th>
+					<th>Neighborhood Name</th>
 				</thead>
-				<tbody>
-					<tr v-for="incident in incidents">
-						<td scope="row">{{incident.case_number}}</td>
-						<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
-						<td>{{incident.incident}}</td>
-						<td>{{incident.date_time}}</td>
-						<td>{{incident.police_grid}}</td>
-						<td>{{incident.block}}</td>
-						<td>{{incident.neighborhood_number}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
-					</tr>
-				</tbody>
+				<tr v-for="incident in incidents">
+					<td>{{incident.case_number}}</td>
+					<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
+					<td>{{incident.incident}}</td>
+					<td>{{incident.date_time}}</td>
+					<td>{{incident.police_grid}}</td>
+					<td>{{incident.block}}</td>
+					<td>{{neighborhood_names[N+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+				</tr>
 			</table>
 		</div>
 	</div>
 	
 	<script>	
+		let codes;
+		let neighborhood_names;
+		
 		app = new Vue({
 			el: "#app",
 			data: {
 				incidents: {}
 			}
 		});
-		
-		function Init(crime_api_url)
-		{
-			//simulate an HTTP redirect
-			$.get(crime_api_url + '/incidents?start_date=2019-10-1$end_date=2019-10-31', function(data)
-			{
-				app.incients = data;
-				console.log(app.incidents);
-			});
-		}
 		
 		var myIcon = L.icon({
 			iconUrl: 'images/icon.png',
@@ -114,7 +101,7 @@
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
-			minZoom: 13,
+			minZoom: 11,
 			id: 'mapbox/streets-v11',
 			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
 		}).addTo(mymap);
@@ -133,6 +120,19 @@
 		L.control.mapCenterCoord({
 			onMove: true,
 		}).addTo(mymap);
+		
+		function Init(crime_api_url) {
+			$.get(crime_api_url + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
+				app.incidents = data;
+			});
+			$.get(crime_api_url + '/codes', function(data){
+				codes = data;
+			});
+			$.get(crime_api_url + '/neighborhoods', function(data){
+				neighborhood_names = data;
+				console.log(neighborhood_names);
+			});
+        }
 	</script>
 </body>
 </html>
