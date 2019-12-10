@@ -11,7 +11,10 @@
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		crossorigin=""></script>
@@ -88,7 +91,6 @@
 			}
 		});
 		
-<<<<<<< HEAD
 		function Init(crime_api_url)
 		{
 			//simulate an HTTP redirect
@@ -98,19 +100,6 @@
 				console.log(app.incidents);
 			});
 		}
-=======
-		
-		function Init(crime_api_url) {
-		// Simulate an HTTP redirect:
-				$.get(crime_api_url + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
-				//console.log(data);
-				app.incidents = data;
-				console.log(app.incidents);
-			});
-        }
-		
-		
->>>>>>> 88738d43dbad5abaf1fb4734ccafbdf72a4d79bd
 		
 		var myIcon = L.icon({
 			iconUrl: 'images/icon.png',
