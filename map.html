@@ -6,29 +6,53 @@
 		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 		crossorigin=""/>
 	<link rel="stylesheet" href="src/leaflet-search.css" />
-	<link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
     <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		crossorigin=""></script>
 	<script src="src/leaflet-search.js"></script>
 	<script src="src/L.Control.MapCenterCoord.js"></script>
-	<script id="redirect">
-		if(window.location.hash.length < 1){        
-			window.location = "src/jqueryui.html";
-		}
-	</script>
+	
+	<script type="application/javascript">
+        function Prompt() {
+            $("#dialog-form").dialog({
+                autoOpen: true,
+                modal: true,
+                width: "360px",
+                buttons: {
+                    "Ok": function() {
+                        var prompt_input = $("#prompt_input");
+                        Init(prompt_input.val());
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        }
+
+        
+    </script>
 
 </head>
-<body onload=redirect>
+<body onload="Prompt()">
+
+	<div id="dialog-form" style="z-index: 2">
+        <label for="name">URL for St. Paul Crime API:</label>
+        <input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
+    </div>
 
 	<div id="mapid" style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"></div>
 	
 	
 	<div id="app">
-		<div class="scroll_table" style="z-index: 2; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
+		<div class="scroll_table" style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
 			<table>
 				<thead>
 					<th>Case Number</th>
@@ -60,6 +84,7 @@
 			}
 		});
 		
+<<<<<<< HEAD
 		function Init(crime_api_url)
 		{
 			//simulate an HTTP redirect
@@ -69,6 +94,19 @@
 				console.log(app.incidents);
 			});
 		}
+=======
+		
+		function Init(crime_api_url) {
+		// Simulate an HTTP redirect:
+				$.get(crime_api_url + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
+				//console.log(data);
+				app.incidents = data;
+				console.log(app.incidents);
+			});
+        }
+		
+		
+>>>>>>> 88738d43dbad5abaf1fb4734ccafbdf72a4d79bd
 		
 		var myIcon = L.icon({
 			iconUrl: 'images/icon.png',
