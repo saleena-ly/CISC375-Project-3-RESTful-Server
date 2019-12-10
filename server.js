@@ -251,7 +251,64 @@ console.log("listening to port " + port + "...");
 
 Vue.component('map', {
 	template: `
-	
+		<form class="locationInput" @submit.prevent="onSubmit">
+			<p class="error" v-if="!error">
+				<b>Please enter a location that is inside of St. Paul</b>
+			</p>
+
+			<p>
+				<label for="location">Location coordinates or address:</label>
+				<input class="location" v-model="location">
+			</p>
+
+			<p>
+				<input type="submit" value="Update">
+			</p>
+		</form>
+	`,
+	data()
+	{
+		return
+		{
+			location: null,
+			error: null
+		}
+	},
+	methods: 
+	{
+		onSubmit()
+		{
+			if(location) //contraint location with coordinates of St.Paul
+			{
+				this.error = false;
+			}
+		}
+	},
+	computed:
+	{
+
+	}
+});
+
+Vue.component('table', {
+	template: `
+		<div class="table">
+			<h1>Crimes in St. Paul</h1>
+			<table style="width:100%">
+				<tr>
+					<th>Neighborhood</th>
+					<th>Case Number</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Code</th>
+					<th>Incident</th>
+					<th>Police Grid</th>
+					<th>Neighborhood Number</th>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</table>
 	`,
 	data()
 	{
@@ -263,11 +320,11 @@ Vue.component('map', {
 	methods: 
 	{
 		
+	},
+	computed:
+	{
+
 	}
-});
-
-Vue.component('table', {
-
 });
 
 var app = new Vue({
