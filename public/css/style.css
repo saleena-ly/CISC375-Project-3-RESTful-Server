@@ -19,11 +19,12 @@ tbody tr:nth-child(odd) {
     background-color: #F4F4F4;
 }
 
+/*
 thead tr {
     background-color: #A0D5EB;
     border-bottom: solid 1px #000000;
 }
-
+*/
 th {
     min-width: 11rem;
 }
