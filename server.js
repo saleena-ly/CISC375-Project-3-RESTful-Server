@@ -81,7 +81,7 @@ app.get('/neighborhoods', (req, res) => {
 		rows.forEach(neighborhood => {
 			if(req.query.id == null || idReq[0] == '')
 			{
-				let key = "C" + neighborhood.neighborhood_number;
+				let key = "N" + neighborhood.neighborhood_number;
 				neighborhoods[key] = neighborhood.neighborhood_name;
 			}
 			else
