@@ -32,20 +32,21 @@
 			<table>
 				<thead>
 					<th>Case Number</th>
-					<th>Date/Time</th>
-					<th>Code</th>
 					<th>Incident Type</th>
 					<th>Incident</th>
+					<th>Date/Time</th>
 					<th>Police Grid</th>
-					<th>Neighborhood Number</th>
-					<th>Neighborhood Name</th>
 					<th>Block</th>
+					<th>Neighborhood Name</th>
 				</thead>
 				<tr v-for="incident in incidents">
-					<td>{{incident.code}}</td>
+					<td>{{incident.case_number}}</td>
+					<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
 					<td>{{incident.incident}}</td>
+					<td>{{incident.date_time}}</td>
 					<td>{{incident.police_grid}}</td>
-					<td>{{incident.neighborhood_number}}</td>
+					<td>{{incident.block}}</td>
+					<td>{{incident.neighborhood_number}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
 				</tr>
 			</table>
 		</div>

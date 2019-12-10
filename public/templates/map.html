@@ -1,28 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 		crossorigin=""/>
 	<link rel="stylesheet" href="src/leaflet-search.css" />
-	<link rel="stylesheet" href="src/L.Control.MapCenterCoord.css" />
+	<link rel="stylesheet" href="style.css"/>
 
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		crossorigin=""></script>
 	<script src="src/leaflet-search.js"></script>
 	<script src="src/L.Control.MapCenterCoord.js"></script>
-</head>
-<body>
-	<div id="mapid" style="z-index: 1; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px"></div>
-	<script>	
-	
-	var myIcon = L.icon({
-		iconUrl: 'images/icon.png',
+	<script id="redirect">
+		if(window.location.hash.length < 1){        
+			window.location = "src/jqueryui.html";
+		}
+	</script>
 
-		iconSize:     [50, 50], // size of the icon
-		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+</head>
+<body onload=redirect>
+
+	<div id="mapid" style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"></div>
+	
+	
+	<div id="app">
+		<div class="scroll_table" style="z-index: 2; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
+			<table>
+				<thead>
+					<th>Case Number</th>
+					<th>Date/Time</th>
+					<th>Code</th>
+					<th>Incident Type</th>
+					<th>Incident</th>
+					<th>Police Grid</th>
+					<th>Neighborhood Number</th>
+					<th>Neighborhood Name</th>
+					<th>Block</th>
+				</thead>
+				<tr v-for="incident in incidents">
+					<td>{{incident.code}}</td>
+					<td>{{incident.incident}}</td>
+					<td>{{incident.police_grid}}</td>
+					<td>{{incident.neighborhood_number}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<script>	
+		app = new Vue({
+			el: "#app",
+			data: {
+				incidents: {}
+			}
+		});
+		
+		$.get(window.location.hash.substring(8, window.location.hash.length), function(data){
+			//console.log(data);
+			app.incidents = data;
+			console.log(app.incidents);
+		});
+		
+		var myIcon = L.icon({
+			iconUrl: 'images/icon.png',
+
+			iconSize:     [50, 50], // size of the icon
+			iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+			popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 		
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(44.909424,-93.191443), L.latLng(45.008058, -92.997122)));
@@ -43,7 +91,7 @@
 			marker: L.marker([0,0],{icon: myIcon}).addTo(mymap),
 			autoCollapse: true,
 			autoType: false,
-			minLength: 2,
+			minLength: 2
 		}) );
 		
 		L.control.mapCenterCoord({
