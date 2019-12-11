@@ -60,30 +60,23 @@
 						<th scope="col">Case Number</th>
 						<th scope="col"> Incident Type</th>
 						<th scope="col">Incident</th>
-						<th scope="col">Date/Time</th>
+						<th scope="col">Date</th>
+						<th scope="col">Time</th>
 						<th scope="col">Police Grid</th>
 						<th scope="col">Block</th>
 						<th scope="col">Neighborhood Name</th>
 					</tr>
 				</thead>
-				<tr v-for="incident in incidents">
-					<td>{{incident.case_number}}</td>
-					<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
-					<td>{{incident.incident}}</td>
-					<td>{{incident.date_time}}</td>
-					<td>{{incident.police_grid}}</td>
-					<td>{{incident.block}}</td>
-					<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
-				</tr>
 				<tbody>
-					<tr v-for="incident in incidents">
-						<td scope="row">{{incident.case_number}}</td>
-						<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
+					<tr v-for="(incident, key) in incidents">
+						<td>{{key}}</td>
+						<td>{{codes["C"+incident.code]}}</td> <!--SWITCH TO INCIDENT TYPE-->
 						<td>{{incident.incident}}</td>
-						<td>{{incident.date_time}}</td>
+						<td>{{incident.date}}</td>
+						<td>{{incident.time}}</td>
 						<td>{{incident.police_grid}}</td>
 						<td>{{incident.block}}</td>
-						<td>{{neighborhood_names[N+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+						<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
 					</tr>
 				</tbody>
 			</table>
@@ -101,16 +94,26 @@
 			}
 		});
 		
-		var myIcon = L.icon({
-			iconUrl: 'images/icon.png',
-
-			iconSize:     [50, 50], // size of the icon
-			iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-			popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-		
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(44.909424,-93.191443), L.latLng(45.008058, -92.997122)));
 		
+		var marker = L.marker([44.922261, -93.027227]).addTo(mymap); //conway
+		var marker = L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
+		var marker = L.marker([44.931064, -93.080664]).addTo(mymap); //west side
+		var marker = L.marker([44.956252, -93.059503]).addTo(mymap); //dayton's bluff
+		var marker = L.marker([44.976702, -93.068935]).addTo(mymap); //payne - phalen
+		var marker = L.marker([44.977405, -93.112685]).addTo(mymap); //north end
+		var marker = L.marker([44.960065, -93.120456]).addTo(mymap); //thomas - dale
+		var marker = L.marker([44.948733, -93.127346]).addTo(mymap); //summit - university
+		var marker = L.marker([44.930766, -93.119996]).addTo(mymap); //west seventh
+		var marker = L.marker([44.982184, -93.150126]).addTo(mymap); //como
+		var marker = L.marker([44.966129, -93.161192]).addTo(mymap); //hamline -midway
+		var marker = L.marker([44.973303, -93.194188]).addTo(mymap); //st. anthony
+		var marker = L.marker([44.948243, -93.174665]).addTo(mymap); //union park
+		var marker = L.marker([44.934211, -93.171586]).addTo(mymap); //macalester - groveland
+		var marker = L.marker([44.910127, -93.170779]).addTo(mymap); //highland
+		var marker = L.marker([44.936824, -93.134851]).addTo(mymap); //summit hill
+		var marker = L.marker([44.950892, -93.094614]).addTo(mymap); //capitol river
+
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
@@ -124,7 +127,7 @@
 			jsonpParam: 'json_callback',
 			propertyName: 'display_name',
 			propertyLoc: ['lat','lon'],
-			marker: L.marker([0,0],{icon: myIcon}).addTo(mymap),
+			marker: L.marker([0,0]).addTo(mymap),
 			autoCollapse: true,
 			autoType: false,
 			minLength: 2
@@ -143,7 +146,6 @@
 			});
 			$.get(crime_api_url + '/neighborhoods', function(data){
 				neighborhood_names = data;
-				console.log(neighborhood_names);
 			});
         }
 	</script>
