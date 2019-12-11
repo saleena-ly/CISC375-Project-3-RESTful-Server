@@ -20,6 +20,7 @@
 		crossorigin=""></script>
 	<script src="src/leaflet-search.js"></script>
 	<script src="src/L.Control.MapCenterCoord.js"></script>
+	<link rel="stylesheet" href="/public/css/style.css">
 	
 	<script type="application/javascript">
         function Prompt() {
@@ -49,37 +50,39 @@
         <input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
     </div>
 
-	<div id="mapid" style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"></div>
-	
-	
-	<div id="app">
-		<div class="scroll_table" style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0">
-			<table class="table">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Case Number</th>
-						<th scope="col"> Incident Type</th>
-						<th scope="col">Incident</th>
-						<th scope="col">Date</th>
-						<th scope="col">Time</th>
-						<th scope="col">Police Grid</th>
-						<th scope="col">Block</th>
-						<th scope="col">Neighborhood Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(incident, key) in incidents">
-						<td>{{key}}</td>
-						<td>{{codes["C"+incident.code]}}</td> <!--SWITCH TO INCIDENT TYPE-->
-						<td>{{incident.incident}}</td>
-						<td>{{incident.date}}</td>
-						<td>{{incident.time}}</td>
-						<td>{{incident.police_grid}}</td>
-						<td>{{incident.block}}</td>
-						<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
-					</tr>
-				</tbody>
-			</table>
+	<div class="container">
+		<div class="row">
+			<div id="mapid" class="col"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
+			
+			<div id="app">
+				<div class="scroll_table" class="col"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
+					<table class="table" id="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Case Number</th>
+								<th scope="col"> Incident Type</th>
+								<th scope="col">Incident</th>
+								<th scope="col">Date/Time</th>
+								<th scope="col">Police Grid</th>
+								<th scope="col">Block</th>
+								<th scope="col">Neighborhood Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(incident, key) in incidents">
+								<td>{{key}}</td>
+								<td>{{codes["C"+incident.code]}}</td> <!--SWITCH TO INCIDENT TYPE-->
+								<td>{{incident.incident}}</td>
+								<td>{{incident.date}}</td>
+								<td>{{incident.time}}</td>
+								<td>{{incident.police_grid}}</td>
+								<td>{{incident.block}}</td>
+								<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 	
