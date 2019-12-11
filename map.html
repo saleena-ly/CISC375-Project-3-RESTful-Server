@@ -73,7 +73,8 @@
 								<th scope="col" class="small table-info">Case Number</th>
 								<th scope="col" class="small table-info"> Incident Type</th>
 								<th scope="col" class="small table-info">Incident</th>
-								<th scope="col" class="small table-info">Date/Time</th>
+								<th scope="col" class="small table-info">Date</th>
+								<th scope="col" class="small table-info">Time</th>
 								<th scope="col" class="small table-info">Police Grid</th>
 								<th scope="col" class="small table-info">Block</th>
 								<th scope="col" class="small table-info">Neighborhood Name</th>
@@ -110,23 +111,23 @@
 		
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(44.909424,-93.191443), L.latLng(45.008058, -92.997122)));
 		
-		var marker = L.marker([44.922261, -93.027227]).addTo(mymap); //conway
-		var marker = L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
-		var marker = L.marker([44.931064, -93.080664]).addTo(mymap); //west side
-		var marker = L.marker([44.956252, -93.059503]).addTo(mymap); //dayton's bluff
-		var marker = L.marker([44.976702, -93.068935]).addTo(mymap); //payne - phalen
-		var marker = L.marker([44.977405, -93.112685]).addTo(mymap); //north end
-		var marker = L.marker([44.960065, -93.120456]).addTo(mymap); //thomas - dale
-		var marker = L.marker([44.948733, -93.127346]).addTo(mymap); //summit - university
-		var marker = L.marker([44.930766, -93.119996]).addTo(mymap); //west seventh
-		var marker = L.marker([44.982184, -93.150126]).addTo(mymap); //como
-		var marker = L.marker([44.966129, -93.161192]).addTo(mymap); //hamline -midway
-		var marker = L.marker([44.973303, -93.194188]).addTo(mymap); //st. anthony
-		var marker = L.marker([44.948243, -93.174665]).addTo(mymap); //union park
-		var marker = L.marker([44.934211, -93.171586]).addTo(mymap); //macalester - groveland
-		var marker = L.marker([44.910127, -93.170779]).addTo(mymap); //highland
-		var marker = L.marker([44.936824, -93.134851]).addTo(mymap); //summit hill
-		var marker = L.marker([44.950892, -93.094614]).addTo(mymap); //capitol river
+		L.marker([44.922261, -93.027227]).addTo(mymap); //conway
+		L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
+		L.marker([44.931064, -93.080664]).addTo(mymap); //west side
+		L.marker([44.956252, -93.059503]).addTo(mymap); //dayton's bluff
+		L.marker([44.976702, -93.068935]).addTo(mymap); //payne - phalen
+		L.marker([44.977405, -93.112685]).addTo(mymap); //north end
+		L.marker([44.960065, -93.120456]).addTo(mymap); //thomas - dale
+		L.marker([44.948733, -93.127346]).addTo(mymap); //summit - university
+		L.marker([44.930766, -93.119996]).addTo(mymap); //west seventh
+		L.marker([44.982184, -93.150126]).addTo(mymap); //como
+		L.marker([44.966129, -93.161192]).addTo(mymap); //hamline -midway
+		L.marker([44.973303, -93.194188]).addTo(mymap); //st. anthony
+		L.marker([44.948243, -93.174665]).addTo(mymap); //union park
+		L.marker([44.934211, -93.171586]).addTo(mymap); //macalester - groveland
+		L.marker([44.910127, -93.170779]).addTo(mymap); //highland
+		L.marker([44.936824, -93.134851]).addTo(mymap); //summit hill
+		L.marker([44.950892, -93.094614]).addTo(mymap); //capitol river
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
