@@ -20,7 +20,7 @@
 		crossorigin=""></script>
 	<script src="src/leaflet-search.js"></script>
 	<script src="src/L.Control.MapCenterCoord.js"></script>
-	<link rel="stylesheet" href="/public/css/style.css">
+	<link rel="stylesheet" href="/css/style.css">
 	
 	<script type="application/javascript">
         function Prompt() {
@@ -50,22 +50,33 @@
         <input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
     </div>
 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<a class="navbar-brand" href="#">St. Paul Crime</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">About</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="spacer1"></div>
+
 	<div class="container">
 		<div class="row">
-			<div id="mapid" class="col"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
+			<div id="mapid" class="col" style="z-index: 1;"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
 			
-			<div id="app" class="col">
+			<div id="app" class="col" style="z-index: 1; bottom: 0">
 				<div class="scroll_table"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
-					<table class="table" id="table">
-						<thead class="thead-dark">
+					<table class="table table-striped table-sm table-bordered">
+						<thead class="thead-info">
 							<tr>
-								<th scope="col">Case Number</th>
-								<th scope="col"> Incident Type</th>
-								<th scope="col">Incident</th>
-								<th scope="col">Date/Time</th>
-								<th scope="col">Police Grid</th>
-								<th scope="col">Block</th>
-								<th scope="col">Neighborhood Name</th>
+								<th scope="col" class="small table-info">Case Number</th>
+								<th scope="col" class="small table-info"> Incident Type</th>
+								<th scope="col" class="small table-info">Incident</th>
+								<th scope="col" class="small table-info">Date/Time</th>
+								<th scope="col" class="small table-info">Police Grid</th>
+								<th scope="col" class="small table-info">Block</th>
+								<th scope="col" class="small table-info">Neighborhood Name</th>
 							</tr>
 						</thead>
 						<tr v-for="incident in incidents">
@@ -77,17 +88,6 @@
 							<td>{{incident.block}}</td>
 							<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
 						</tr>
-						<tbody>
-							<tr v-for="incident in incidents">
-								<td scope="row">{{incident.case_number}}</td>
-								<td>{{incident.code}}</td> <!--SWITCH TO INCIDENT TYPE-->
-								<td>{{incident.incident}}</td>
-								<td>{{incident.date_time}}</td>
-								<td>{{incident.police_grid}}</td>
-								<td>{{incident.block}}</td>
-								<td>{{neighborhood_names[N+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
-							</tr>
-						</tbody>
 					</table>
 				</div>
 			</div>
@@ -119,6 +119,7 @@
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
 			minZoom: 11,
+			trackResize: true,
 			id: 'mapbox/streets-v11',
 			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
 		}).addTo(mymap);

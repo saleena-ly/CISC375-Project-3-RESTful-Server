@@ -5,8 +5,8 @@
     overflow: scroll;
     border: solid 1px black;
 }
-table {
-    font-size: 1.2rem;
+.table-condensed {
+    font-size: 10px;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -32,4 +32,9 @@ th {
 td {
     padding-left: 3rem;
 
+}
+
+.spacer1 {
+    height: 5rem;
+    clear: both;
 }
