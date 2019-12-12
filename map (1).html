@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin=""/>
+	<link rel="stylesheet" href="src/leaflet-search.css" />
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+		crossorigin=""></script>
+	<script src="src/leaflet-search.js"></script>
+	<script src="src/L.Control.MapCenterCoord.js"></script>
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<script type="application/javascript">
+        function Prompt() {
+            $("#dialog-form").dialog({
+                autoOpen: true,
+                modal: true,
+                width: "360px",
+                buttons: {
+                    "Ok": function() {
+                        var prompt_input = $("#prompt_input");
+                        Init(prompt_input.val());
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        }
+    </script>
+
+</head>
+<body onload="Prompt()">
+
+	<div id="dialog-form" style="z-index: 2">
+        <label for="name">URL for St. Paul Crime API:</label>
+        <input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
+    </div>
+	
+	
+
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<a class="navbar-brand" href="#">St. Paul Crime</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">About</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="spacer1"></div>
+
+	<div class="container">
+		<div class="row">
+		
+<!--
+			<div class="filters" style="z-index:2">
+				<fieldset>
+					<form>
+					<h1>Filters</h1>
+					<button type="button" class="collapsible" data-toggle="collapse">Neighborhoods</button>
+					<div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N1" id="Conway/Battlecreek/Highwood"><label>Conway/Battlecreek/Highwood</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N2" id="Greater East Side"><label>Greater East Side</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N3" id="West Side"><label>West Side</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N4" id="Dayton's Bluff"><label>Dayton's Bluff</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N5" id="Payne/Phalen"><label>Payne/Phalen</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N6" id="North End"><label>North End</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N7" id="Thomas/Dale(Frogtown)"><label>Thomas/Dale(Frogtown)</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N8" id="Summit/University"><label>Summit/University</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N9" id="West Seventh"><label>West Seventh</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N10" id="Como"><label>Como</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N11" id="Hamline/Midway"><label>Hamline/Midway</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N12" id="St. Anthony"><label>St. Anthony</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N13" id="Union Park"><label>Union Park</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N14" id="Macalester-Groveland"><label>Macalester-Groveland</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N15" id="Highland"><label>Highland</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N16" id="Summit Hill"><label>Summit Hill</label>
+							</span>
+						</div>
+						<div>
+							<span>
+								<input type="radio" name="Neighborhood" value="N17" id="Capitol River"><label>Capitol River</label>
+							</span>
+						</div>
+						</form>
+					</fieldset>
+					<button type="button" class="collapsible">Incident Types</button>
+				</div>
+			</div>
+		-->		
+			<div id="mapid" style="z-index: 1; position: absolute; top: 6%; left: 0; bottom: 0; right: 50%"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
+			
+			<div id="app"  style="z-index: 1;">
+				<div style="width:50%;overflow:auto; max-height:100%; z-index: 1; position: absolute; top: 6%; left: 50%; bottom: 0; right: 0"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
+					<table class="table table-striped table-sm table-bordered">
+						<thead class="thead-info">
+							<tr>
+								<th scope="col" class="small table-info font-weight-bold">Case Number</th>
+								<th scope="col" class="small table-info font-weight-bold">Incident Type</th>
+								<th scope="col" class="small table-info font-weight-bold">Incident</th>
+								<th scope="col" class="small table-info font-weight-bold">Date</th>
+								<th scope="col" class="small table-info font-weight-bold">Time</th>
+								<th scope="col" class="small table-info font-weight-bold">Police Grid</th>
+								<th scope="col" class="small table-info font-weight-bold">Block</th>
+								<th scope="col" class="small table-info font-weight-bold">Neighborhood Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(incident, key) in incidents">
+								<td>{{key}}</td>
+								<td>{{codes["C"+incident.code]}}</td> <!--SWITCH TO INCIDENT TYPE-->
+								<td>{{incident.incident}}</td>
+								<td>{{incident.date}}</td>
+								<td>{{incident.time}}</td>
+								<td>{{incident.police_grid}}</td>
+								<td>{{incident.block}}</td>
+								<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>	
+		let codes;
+		let neighborhood_names;
+		
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				} 	
+				else {
+					content.style.display = "block";
+				}	
+			});
+		}
+		
+		app = new Vue({
+			el: "#app",
+			data: {
+				incidents: {}
+			}
+		});
+
+		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(45.002988, -93.213431), L.latLng(44.888871, -93.001800)));
+		
+		L.marker([44.922261, -93.027227]).addTo(mymap); //conway
+		L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
+		L.marker([44.931064, -93.080664]).addTo(mymap); //west side
+		L.marker([44.956252, -93.059503]).addTo(mymap); //dayton's bluff
+		L.marker([44.976702, -93.068935]).addTo(mymap); //payne - phalen
+		L.marker([44.977405, -93.112685]).addTo(mymap); //north end
+		L.marker([44.960065, -93.120456]).addTo(mymap); //thomas - dale
+		L.marker([44.948733, -93.127346]).addTo(mymap); //summit - university
+		L.marker([44.930766, -93.119996]).addTo(mymap); //west seventh
+		L.marker([44.982184, -93.150126]).addTo(mymap); //como
+		L.marker([44.966129, -93.161192]).addTo(mymap); //hamline -midway
+		L.marker([44.973303, -93.194188]).addTo(mymap); //st. anthony
+		L.marker([44.948243, -93.174665]).addTo(mymap); //union park
+		L.marker([44.934211, -93.171586]).addTo(mymap); //macalester - groveland
+		L.marker([44.910127, -93.170779]).addTo(mymap); //highland
+		L.marker([44.936824, -93.134851]).addTo(mymap); //summit hill
+		L.marker([44.950892, -93.094614]).addTo(mymap); //capitol river
+
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
+			maxZoom: 18,
+			minZoom: 11,
+			trackResize: true,
+			id: 'mapbox/streets-v11',
+			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
+		}).addTo(mymap);
+		
+		mymap.addControl( new L.Control.Search({
+			url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+			jsonpParam: 'json_callback',
+			propertyName: 'display_name',
+			propertyLoc: ['lat','lon'],
+			marker: L.marker([0,0]).addTo(mymap),
+			autoCollapse: true,
+			autoType: false,
+			moveToLocation: function(latlng, title, mymap) {
+				mymap.setView(latlng, 16);},
+			minLength: 2
+		}) );
+		
+		L.control.mapCenterCoord({
+			onMove: true,
+		}).addTo(mymap);
+		
+		function Init(crime_api_url) {
+			$.get(crime_api_url + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
+				app.incidents = data;
+			});
+			$.get(crime_api_url + '/codes', function(data){
+				codes = data;
+			});
+			$.get(crime_api_url + '/neighborhoods', function(data){
+				neighborhood_names = data;
+			});
+        }
+	</script>
+</body>
+</html>

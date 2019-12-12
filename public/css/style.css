@@ -35,6 +35,6 @@ td {
 }
 
 .spacer1 {
-    height: 5rem;
+    margin-top: ($spacer * .25) !important;
     clear: both;
 }
