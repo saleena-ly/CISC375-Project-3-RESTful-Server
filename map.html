@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	<title>St. Paul Crime</title>
+
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 		crossorigin=""/>
@@ -67,23 +70,23 @@
     </div>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="height: 80px">
-		<a class="navbar-brand" href="#">St. Paul Crime</a>
-		<ul class="navbar-nav">
+		<a class="navbar-brand font-weight-bold" style="font-size:250% !important" href="../../map.html">St. Paul Crime</a>
+		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="/public/templates/about.html">About</a>
+				<a class="nav-link font-weight-bold" style="font-size:150%" href="/public/templates/about.html">About</a>
 			</li>
 		</ul>
 	</nav>
 
-	<button class="accordion btn-sm btn-info dropdown-toggle" style="position: absolute; width:125px; top: 80px">Neighborhoods</button>
+	<button class="accordion btn-sm btn-info dropdown-toggle" style="position: absolute; left: 1%; width:125px; top: 90px">Neighborhoods</button>
 	<div class="panel">
 	</div>
 
-	<div id="mapid" style="z-index: 1; position: absolute; top: 80px; left: 125px; bottom: 0; right: 50%"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
+	<div id="mapid" style="z-index: 1; position: absolute; top: 90px; left: 149px; bottom: 15px; right: 48%"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
 		
-	<div id="app"  style="position: absolute; left: 50%; top: 80px; right:0%"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
+	<div id="app"  style="position: absolute; left: 53%; top: 90px; bottom: 15px; right:1%"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
 		<div id=scrollbar>
-			<table id="table" class="table table-striped table-sm table-bordered table-responsive;" style="right: 0%;">
+			<table id="table" class="table table-striped table-sm table-bordered table-responsive;">
 				<thead class="thead-info">
 					<tr>
 						<th scope="col" class="small table-info font-weight-bold">Case Number</th>
@@ -140,6 +143,24 @@
 
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(45.002988, -93.213431), L.latLng(44.888871, -93.001800)));
 		
+		let N1 = 0;
+		let N2 = 0;
+		let N3 = 0;
+		let N4 = 0;
+		let N5 = 0;
+		let N6 = 0;
+		let N7 = 0;
+		let N8 = 0;
+		let N9 = 0;
+		let N10 = 0;
+		let N11 = 0;
+		let N12 = 0;
+		let N13 = 0;
+		let N14 = 0;
+		let N15 = 0;
+		let N16 = 0;
+		let N17 = 0;
+
 		L.marker([44.922261, -93.027227]).addTo(mymap); //conway
 		L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
 		L.marker([44.931064, -93.080664]).addTo(mymap); //west side
@@ -161,7 +182,7 @@
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
-			minZoom: 11,
+			minZoom: 13,
 			trackResize: true,
 			id: 'mapbox/streets-v11',
 			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
