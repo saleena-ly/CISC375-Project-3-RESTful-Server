@@ -109,23 +109,23 @@
 	<button class="accordion accordion btn-sm btn-info dropdown-toggle" style="top: 28px; left: 300px;">Neighborhoods</button>
 	<div class="panel" style="top: 65px; left: 300px; width:175px">
 		<div class="vertical-checkbox">
-			<div><input type="checkbox" value="N1" id="Conway/Battlecreek/Highwood" v-model="checkedN1"><label>Conway/Battlecreek/Highwood</label></div>
-			<div><input type="checkbox" value="N2" id="Greater East Side" v-model="checkedN2"><label>Greater East Side</label></div>
-			<div><input type="checkbox" value="N3" id="West Side" v-model="checkedN3"><label>West Side</label></div>
-			<div><input type="checkbox" value="N4" id="Dayton's Bluff" v-model="checkedN4"><label>Dayton's Bluff</label></div>
-			<div><input type="checkbox" value="N5" id="Payne/Phalen" v-model="checkedN5"><label>Payne/Phalen</label></div>
-			<div><input type="checkbox" value="N6" id="North End" v-model="checkedN6"><label>North End</label></div>
-			<div><input type="checkbox" value="N7" id="Thomas/Dale(Frogtown)" v-model="checkedN7"><label>Thomas/Dale(Frogtown)</label></div>
-			<div><input type="checkbox" value="N8" id="Summit/University" v-model="checkedN8"><label>Summit/University</label></div>
-			<div><input type="checkbox" value="N9" id="West Seventh" v-model="checkedN9"><label>West Seventh</label></div>
-			<div><input type="checkbox" value="N10" id="Como" v-model="checkedN10"><label>Como</label></div>
-			<div><input type="checkbox" value="N11" id="Hamline/Midway" v-model="checkedN11"><label>Hamline/Midway</label></div>
-			<div><input type="checkbox" value="N12" id="St. Anthony's Park" v-model="checkedN12"><label>St. Anthony's Park</label></div>
-			<div><input type="checkbox" value="N13" id="Union Park" v-model="checkedN13"><label>Union Park</label></div>
-			<div><input type="checkbox" value="N14" id="Macalester-Groveland" v-model="checkedN14"><label>Macalester-Groveland</label></div>
-			<div><input type="checkbox" value="N15" id="Highland" v-model="checkedN15"><label>Highland</label></div>
-			<div><input type="checkbox" value="N16" id="Summit Hill" v-model="checkedN16"><label>Summit Hill</label></div>
-			<div><input type="checkbox" value="N17" id="Capitol River" v-model="checkedN18"><label>Capitol River</label></div>
+			<div><input type="checkbox" v-model="checkedN1"><label>Conway/Battlecreek/Highwood</label></div>
+			<div><input type="checkbox" v-model="checkedN2"><label>Greater East Side</label></div>
+			<div><input type="checkbox" v-model="checkedN3"><label>West Side</label></div>
+			<div><input type="checkbox" v-model="checkedN4"><label>Dayton's Bluff</label></div>
+			<div><input type="checkbox" v-model="checkedN5"><label>Payne/Phalen</label></div>
+			<div><input type="checkbox" v-model="checkedN6"><label>North End</label></div>
+			<div><input type="checkbox" v-model="checkedN7"><label>Thomas/Dale(Frogtown)</label></div>
+			<div><input type="checkbox" v-model="checkedN8"><label>Summit/University</label></div>
+			<div><input type="checkbox" v-model="checkedN9"><label>West Seventh</label></div>
+			<div><input type="checkbox" v-model="checkedN10"><label>Como</label></div>
+			<div><input type="checkbox" v-model="checkedN11"><label>Hamline/Midway</label></div>
+			<div><input type="checkbox" v-model="checkedN12"><label>St. Anthony's Park</label></div>
+			<div><input type="checkbox" v-model="checkedN13"><label>Union Park</label></div>
+			<div><input type="checkbox" v-model="checkedN14"><label>Macalester-Groveland</label></div>
+			<div><input type="checkbox" v-model="checkedN15"><label>Highland</label></div>
+			<div><input type="checkbox" v-model="checkedN16"><label>Summit Hill</label></div>
+			<div><input type="checkbox" v-model="checkedN18"><label>Capitol River</label></div>
 		</div>
 	</div>
 	
@@ -192,11 +192,7 @@
 					<!--violent crimes-->
 					<tr class="tableRow" @click="getData(incident.block)" style="cursor:pointer" v-for="(incident, key) in incidents" 
 					v-if="(incident.code < 300 || (incident.code < 500 && incident.code >= 400) || 
-					(incident.code < 900 && incident.code > 800)) && ((incident.neighborhood_number == 1 && checkedN1 == true) || 
-					(incident.neighborhood_number == 2 && checkedN2 == true) || (incident.neighborhood_number == 3 && checkedN3 == true) ||
-					(incident.neighborhood_name == 4 && checkedN4 == true) || (incident.neighborhood_name == 5 && checkedN5 == true || checkedN6 == true || checkedN7 == true || checkedN8 == true ||
-					checkedN9 == true || checkedN10 == true || checkedN11 == true || checkedN12 == true || checkedN13 == true ||
-					checkedN14 == true || checkedN15 == true || checkedN16 == true || checkedN17" bgcolor="#ff5447"> 
+					(incident.code < 900 && incident.code > 800))" bgcolor="#ff5447"> 
 						<td>{{key}}</td>
 						<td>{{app.codes['C'+incident.code]}}</td> 
 						<td>{{incident.incident}}</td>
@@ -309,6 +305,12 @@
 				startDate: "",
 				endDate: ""
 			},
+			methods:{
+				getNeighborhood(neighborhood)
+				{
+					return this["checkedN"+neighborhood];
+				}
+			}
 		});
 
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(45.002988, -93.213431), L.latLng(44.888871, -93.001800)));
