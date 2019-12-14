@@ -349,14 +349,29 @@
 			//console.log(mymap.getBounds());
 		});
 		
-		
-		function getData(ID){
-			console.log(ID);
-			
-			str.split(" ");
-			
-			$.getJSON( "https://nominatim.openstreetmap.org/search?q="+ID+"&limit=1&format=json&viewbox=45.002988,-93.213431,44.888871,-93.001800", function( data ) {
-					console.log(data);
+		function getData(data){
+			console.log(data.time);
+			var temp_string;
+			var temp_string2;
+			var m;
+			temp_string = data.block.split(" ", 1);
+			temp_string2 = temp_string[0];
+			temp_string2 = temp_string2.substring(0, temp_string2.length-1);
+			temp_string = "Date: " + data.date + "<br>Time: " + data.time + "<br>Incident: " + data.incident;
+
+			if(isNaN(temp_string2) == false){
+				data.block = data.block.replace("X", "0");
+			}
+
+			$.getJSON( "https://nominatim.openstreetmap.org/search?q="+data.block+"&limit=1&bounded=1&format=json&viewbox=-93.195159,44.902282,-93.005340,44.990488", function( data ) {
+				mymap.flyTo([data[0].lat,data[0].lon], 17);
+				m = L.marker([data[0].lat,data[0].lon]).bindPopup().addTo(mymap);
+				
+				m.on('mouseover', function(event){
+					
+					m.openPopup();
+					event.target.getPopup().setContent(temp_string + '<br/><button type="button" class="btn btn-primary btn-sm"'  + '>Delete Marker</button>');
+				})
 			});
 			
 			var hi = 'https://nominatim.openstreetmap.org/search?q=ID&format=json';
