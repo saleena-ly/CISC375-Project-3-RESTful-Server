@@ -11,7 +11,7 @@
 	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -28,10 +28,7 @@
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 	<script type="application/javascript">
-		let codes;
-		let neighborhood_names;
-		
-        function Prompt() {
+		function Prompt() {
             $("#dialog-form").dialog({
                 autoOpen: true,
                 modal: true,
@@ -50,16 +47,47 @@
         }
 		
 		function Init(crime_api_url) {
-			$.get(crime_api_url + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
+			$.get(crime_api_url  + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
 				app.incidents = data;
+				for (var key in app.incidents) {
+					if (app.incidents.hasOwnProperty(key)) {
+						crime_arr[app.incidents[key].neighborhood_number - 1] = crime_arr[app.incidents[key].neighborhood_number - 1] + 1;
+					}
+				}
+								console.log(crime_arr[0]);
+
+		
 			});
 			$.get(crime_api_url + '/codes', function(data){
-				codes = data;
+				app.codes = data;
 			});
 			$.get(crime_api_url + '/neighborhoods', function(data){
-				neighborhood_names = data;
+				app.neighborhood_names = data;
 			});
         }
+/*
+		function onClick()
+		{
+			var filters = "";
+			for(neighborhood in app.neighborhood_names){
+				console.log(neighborhood)
+				if(document.getElementById(neighborhood).checked == true)
+				{
+					if(filters == "")
+					{
+						filters = filters + "?id=" + neighborhood;
+					}
+					else
+					{
+						filters = filters + ",neighborhood";
+					}
+				}
+			}
+			$.get(crime_api_url + '/incidents' + filters, function(data){
+				app.incidents = data
+			})
+		}
+*/
     </script>
 
 </head>
@@ -70,24 +98,85 @@
     </div>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="height: 80px">
-		<a class="navbar-brand font-weight-bold" style="font-size:250% !important" href="../../map.html">St. Paul Crime</a>
+		<a class="navbar-brand font-weight-bold" style="font-size:250% !important; text-align:center" href="../../map.html">St. Paul Crime</a>
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<a class="nav-link font-weight-bold" style="font-size:150%" href="/public/templates/about.html">About</a>
+				<a class="nav-link font-weight-bold" style="font-size:150%" href="public/templates/about.html">About</a>
 			</li>
 		</ul>
 	</nav>
 
-	<button class="accordion btn-sm btn-info dropdown-toggle" style="position: absolute; left: 1%; width:125px; top: 90px">Neighborhoods</button>
-	<div class="panel">
+	<button class="accordion accordion btn-sm btn-info dropdown-toggle" style="top: 28px; left: 300px;">Neighborhoods</button>
+	<div class="panel" style="top: 65px; left: 300px; width:175px">
+		<div class="vertical-checkbox">
+			<div><input type="checkbox" value="N1" id="Conway/Battlecreek/Highwood" v-model="checkedN1"><label>Conway/Battlecreek/Highwood</label></div>
+			<div><input type="checkbox" value="N2" id="Greater East Side" v-model="checkedN2"><label>Greater East Side</label></div>
+			<div><input type="checkbox" value="N3" id="West Side" v-model="checkedN3"><label>West Side</label></div>
+			<div><input type="checkbox" value="N4" id="Dayton's Bluff" v-model="checkedN4"><label>Dayton's Bluff</label></div>
+			<div><input type="checkbox" value="N5" id="Payne/Phalen" v-model="checkedN5"><label>Payne/Phalen</label></div>
+			<div><input type="checkbox" value="N6" id="North End" v-model="checkedN6"><label>North End</label></div>
+			<div><input type="checkbox" value="N7" id="Thomas/Dale(Frogtown)" v-model="checkedN7"><label>Thomas/Dale(Frogtown)</label></div>
+			<div><input type="checkbox" value="N8" id="Summit/University" v-model="checkedN8"><label>Summit/University</label></div>
+			<div><input type="checkbox" value="N9" id="West Seventh" v-model="checkedN9"><label>West Seventh</label></div>
+			<div><input type="checkbox" value="N10" id="Como" v-model="checkedN10"><label>Como</label></div>
+			<div><input type="checkbox" value="N11" id="Hamline/Midway" v-model="checkedN11"><label>Hamline/Midway</label></div>
+			<div><input type="checkbox" value="N12" id="St. Anthony's Park" v-model="checkedN12"><label>St. Anthony's Park</label></div>
+			<div><input type="checkbox" value="N13" id="Union Park" v-model="checkedN13"><label>Union Park</label></div>
+			<div><input type="checkbox" value="N14" id="Macalester-Groveland" v-model="checkedN14"><label>Macalester-Groveland</label></div>
+			<div><input type="checkbox" value="N15" id="Highland" v-model="checkedN15"><label>Highland</label></div>
+			<div><input type="checkbox" value="N16" id="Summit Hill" v-model="checkedN16"><label>Summit Hill</label></div>
+			<div><input type="checkbox" value="N17" id="Capitol River" v-model="checkedN18"><label>Capitol River</label></div>
+		</div>
 	</div>
+	
+	<button class="accordion accordion btn-sm btn-info dropdown-toggle" style="top: 28px; left: 450px;">Incident Types</button>
+	<div class="panel" style="top: 65px; left: 450px; width:175px">
+		<div class="vertical-checkbox">
+			<div><input type="checkbox" name="neighborhoods" value="N1" id="Conway/Battlecreek/Highwood"><label>Conway/Battlecreek/Highwood</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N2" id="Greater East Side"><label>Greater East Side</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N3" id="West Side"><label>West Side</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N4" id="Dayton's Bluff"><label>Dayton's Bluff</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N5" id="Payne/Phalen"><label>Payne/Phalen</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N6" id="North End"><label>North End</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N7" id="Thomas/Dale(Frogtown)"><label>Thomas/Dale(Frogtown)</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N8" id="Summit/University"><label>Summit/University</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N9" id="West Seventh"><label>West Seventh</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N10" id="Como"><label>Como</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N11" id="Hamline/Midway"><label>Hamline/Midway</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N12" id="St. Anthony's Park"><label>St. Anthony's Park</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N13" id="Union Park"><label>Union Park</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N14" id="Macalester-Groveland"><label>Macalester-Groveland</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N15" id="Highland"><label>Highland</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N16" id="Summit Hill"><label>Summit Hill</label></div>
+			<div><input type="checkbox" name="neighborhoods" value="N17" id="Capitol River"><label>Capitol River</label></div>
+		</div>
+	</div>
+	
+	<div class="input btn btn-info" style="left: 590px; text-align: left;">
+		<p>
+			Start Date:
+		</p>
 
-	<div id="mapid" style="z-index: 1; position: absolute; top: 90px; left: 149px; bottom: 15px; right: 48%"></div> <!--style="z-index: 1; position: absolute; top: 0; left: 0; bottom: 30%; right: 0"-->	
+	</div>
+	<div class="input btn btn-info" style="left: 820px; text-align: left;">
+		<p>
+			End Date:
+		</p>
+
+	</div>
+	<form>
+			Start Date:
+			<input type="text" class="dates" name="start_date" style="top: 28px; left: 680px">
+			End Date:
+			<input type="text" class="dates" name="end_date" style="top: 28px; left: 905px">
+	</form>
 		
-	<div id="app"  style="position: absolute; left: 53%; top: 90px; bottom: 15px; right:1%"> <!--style="z-index: 1; position: absolute; top: 70%; left: 0; bottom: 0; right: 0"-->
+	<div id="mapid" style="z-index: 1; position: absolute; top: 80px; left: 0; bottom: 0; right: 50%"></div>
+		
+	<div id="app"  style="position: absolute; left: 50%; top: 80px; right:0%"> 
 		<div id=scrollbar>
-			<table id="table" class="table table-striped table-sm table-bordered table-responsive;">
-				<thead class="thead-info">
+			<table class="table table-sm table-bordered table-responsive;" style="right: 0%;">
+				<thead>
 					<tr>
 						<th scope="col" class="small table-info font-weight-bold">Case Number</th>
 						<th scope="col" class="small table-info font-weight-bold">Incident Type</th>
@@ -100,32 +189,89 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr style="cursor:pointer" v-for="(incident, key) in incidents">
+					<!--violent crimes-->
+					<tr class="tableRow" @click="getData(incident.block)" style="cursor:pointer" v-for="(incident, key) in incidents" 
+					v-if="(incident.code < 300 || (incident.code < 500 && incident.code >= 400) || 
+					(incident.code < 900 && incident.code > 800)) && ((incident.neighborhood_number == 1 && checkedN1 == true) || 
+					(incident.neighborhood_number == 2 && checkedN2 == true) || (incident.neighborhood_number == 3 && checkedN3 == true) ||
+					(incident.neighborhood_name == 4 && checkedN4 == true) || (incident.neighborhood_name == 5 && checkedN5 == true || checkedN6 == true || checkedN7 == true || checkedN8 == true ||
+					checkedN9 == true || checkedN10 == true || checkedN11 == true || checkedN12 == true || checkedN13 == true ||
+					checkedN14 == true || checkedN15 == true || checkedN16 == true || checkedN17" bgcolor="#ff5447"> 
 						<td>{{key}}</td>
-						<td>{{codes['C'+incident.code]}}</td> <!--SWITCH TO INCIDENT TYPE-->
+						<td>{{app.codes['C'+incident.code]}}</td> 
 						<td>{{incident.incident}}</td>
 						<td>{{incident.date}}</td>
 						<td>{{incident.time}}</td>
 						<td>{{incident.police_grid}}</td>
 						<td>{{incident.block}}</td>
-						<td>{{neighborhood_names['N'+incident.neighborhood_number]}}</td> <!--SWITCH TO NEIGHBORHOOD NAME-->
+						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
+					</tr>
+
+					<!--property crimes-->
+					<tr class="tableRow" @click="getData(incident.block)" style="cursor:pointer" v-for="(incident, key) in incidents" 
+					v-if="(incident.code < 400 && incident.code >= 300) || (incident.code < 800 && incident.code >= 500) || 
+					(incident.code < 1500 && incident.code >= 900)" bgcolor="#47ceff">
+						<td>{{key}}</td>
+						<td>{{app.codes['C'+incident.code]}}</td> 
+						<td>{{incident.incident}}</td>
+						<td>{{incident.date}}</td>
+						<td>{{incident.time}}</td>
+						<td>{{incident.police_grid}}</td>
+						<td>{{incident.block}}</td>
+						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
+					</tr>
+
+					<!--other crimes-->
+					<tr class="tableRow" @click="getData(incident.block)" style="cursor:pointer" v-for="(incident, key) in incidents" 
+					v-if="incident.code >= 1800" bgcolor="#47ff9a">
+						<td>{{key}}</td>
+						<td>{{app.codes['C'+incident.code]}}</td>
+						<td>{{incident.incident}}</td>
+						<td>{{incident.date}}</td>
+						<td>{{incident.time}}</td>
+						<td>{{incident.police_grid}}</td>
+						<td>{{incident.block}}</td>
+						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 
+	<div id="legend" style="position: absolute; left: 50%; top: 605px; right:0%">
+		<table class="table table-sm table-responsive;" style="right: 50%; top: 50%" width="20">
+			<thead>
+				<tr>
+					<th scope="col" class="table-info font-weight-bold" width="20px">Type of Crime</th>
+					<th scope="col" class="table-info font-weight-bold" width="10px">Color</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="tableRow">
+					<td>Violent Crime</td>
+					<td bgcolor="#ff5447"></td>
+				</tr>
+				<tr class="tableRow">
+					<td>Property Crime</td>
+					<td bgcolor="#47ceff"></td>
+				</tr>
+				<tr class="tableRow">
+					<td>Other Crime</td>
+					<td bgcolor="#47ff9a"
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<script>		
+		let crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		var acc = document.getElementsByClassName("accordion");
 		var i;
 
 		for (i = 0; i < acc.length; i++) {
 		  acc[i].addEventListener("click", function() {
-			/* Toggle between adding and removing the "active" class,
-			to highlight the button that controls the panel */
 			this.classList.toggle("active");
 
-			/* Toggle between hiding and showing the active panel */
 			var panel = this.nextElementSibling;
 			if (panel.style.display === "block") {
 			  panel.style.display = "none";
@@ -133,35 +279,46 @@
 			  panel.style.display = "block";
 			}
 		  });
-		}
+		} 
+		
+		console.log(crime_arr[0].toString());
+		
 		app = new Vue({
 			el: "#app",
 			data: {
-				incidents: {}
-			}
+				incidents: {},
+				codes: {},
+				neighborhood_names: {},
+				checkedN1: false,
+				checkedN2: false,
+				checkedN3: false,
+				checkedN4: false,
+				checkedN5: false,
+				checkedN6: false,
+				checkedN7: false,
+				checkedN8: false,
+				checkedN9: false,
+				checkedN10: false,
+				checkedN11: false,
+				checkedN12: false,
+				checkedN13: false,
+				checkedN14: false,
+				checkedN15: false,
+				checkedN16: false,
+				checkedN17: false,
+				startDate: "",
+				endDate: ""
+			},
 		});
 
 		var mymap = L.map('mapid').setView([44.9537, -93.0900], 13).setMaxBounds(L.latLngBounds(L.latLng(45.002988, -93.213431), L.latLng(44.888871, -93.001800)));
 		
-		let N1 = 0;
-		let N2 = 0;
-		let N3 = 0;
-		let N4 = 0;
-		let N5 = 0;
-		let N6 = 0;
-		let N7 = 0;
-		let N8 = 0;
-		let N9 = 0;
-		let N10 = 0;
-		let N11 = 0;
-		let N12 = 0;
-		let N13 = 0;
-		let N14 = 0;
-		let N15 = 0;
-		let N16 = 0;
-		let N17 = 0;
-
-		L.marker([44.922261, -93.027227]).addTo(mymap); //conway
+		L.marker([44.922261, -93.027227], {
+			icon: L.divIcon({
+				className: 'my-custom-icon',
+				html: "hi"
+			})
+		}).addTo(mymap); //conway
 		L.marker([44.977473, -93.025327]).addTo(mymap); //greater east side
 		L.marker([44.931064, -93.080664]).addTo(mymap); //west side
 		L.marker([44.956252, -93.059503]).addTo(mymap); //dayton's bluff
@@ -182,25 +339,32 @@
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
-			minZoom: 13,
+			minZoom: 11,
 			trackResize: true,
 			id: 'mapbox/streets-v11',
 			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
 		}).addTo(mymap);
 		
 		L.Control.geocoder().addTo(mymap);
-
-			
-			$("#table").click(function() {
-    var $row = $(this).closest("tr"),
-        $tds = $row.find("td:nth-child(2)");
-
-    $.each($tds, function() {
-        console.log($(this).text());
-    });
-    
-});
 		
+		mymap.addEventListener('move', function() {
+			//console.log(mymap.getCenter());
+			//console.log(mymap.getBounds());
+		});
+		
+		
+		function getData(ID){
+			console.log(ID);
+			
+			str.split(" ");
+			
+			$.getJSON( "https://nominatim.openstreetmap.org/search?q="+ID+"&limit=1&format=json&viewbox=45.002988,-93.213431,44.888871,-93.001800", function( data ) {
+					console.log(data);
+			});
+			
+			var hi = 'https://nominatim.openstreetmap.org/search?q=ID&format=json';
+			console.log(hi);
+		}
 	</script>
 </body>
 </html>
