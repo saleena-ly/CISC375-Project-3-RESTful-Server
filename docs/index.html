@@ -209,136 +209,142 @@
     </div>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="height: 80px">
-		<a class="navbar-brand" href="#">St. Paul Crime</a>
-		<ul class="navbar-nav">
+		<a class="navbar-brand" style="font-size: 250%; font-weight: bold;" href="#">St. Paul Crime</a>
+		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="/public/templates/about.html">About</a>
-			</li>
-			<li class="nav-item">
-
+				<a class="nav-link" style="font-size: 150%; font-weight: bold" href="/public/templates/about.html">About</a>
 			</li>
 		</ul>
 	</nav>
 		
-	<div id="mapid" style="z-index: 1; position: absolute; top: 80px; left: 0; bottom: 0; right: 50%"></div>
-		
-	<div id="app"  style="position: absolute; left: 50%; top: 0px; right:0%"> 
-		<button class="accordion accordion btn-sm btn-info dropdown-toggle" style="top: 28px; left: 300px;">Neighborhoods</button>
-		<div class="panel" style="width:175px">
-			<div class="vertical-checkbox" id="app">
-				<div><input type="checkbox" id="N1" v-model="N1"><label for="N1">Conway/Battlecreek/Highwood</label></div>
-				<div><input type="checkbox" id="N2" v-model="N2"><label for="N2">Greater East Side</label></div>
-				<div><input type="checkbox" id="N3" v-model="N3"><label for="N3">West Side</label></div>
-				<div><input type="checkbox" id="N4" v-model="N4"><label for="N4">Dayton's Bluff</label></div>
-				<div><input type="checkbox" id="N5" v-model="N5"><label for="N5">Payne/Phalen</label></div>
-				<div><input type="checkbox" id="N6" v-model="N6"><label for="N6">North End</label></div>
-				<div><input type="checkbox" id="N7" v-model="N7"><label for="N7">Thomas/Dale(Frogtown)</label></div>
-				<div><input type="checkbox" id="N8" v-model="N8"><label for="N8">Summit/University</label></div>
-				<div><input type="checkbox" id="N9" v-model="N9"><label for="N9">West Seventh</label></div>
-				<div><input type="checkbox" id="N10" v-model="N10"><label for="N10">Como</label></div>
-				<div><input type="checkbox" id="N11" v-model="N11"><label for="N11">Hamline/Midway</label></div>
-				<div><input type="checkbox" id="N12" v-model="N12"><label for="N12">St. Anthony's Park</label></div>
-				<div><input type="checkbox" id="N13" v-model="N13"><label for="N13">Union Park</label></div>
-				<div><input type="checkbox" id="N14" v-model="N14"><label for="N14">Macalester-Groveland</label></div>
-				<div><input type="checkbox" id="N15" v-model="N15"><label for="N15">Highland</label></div>
-				<div><input type="checkbox" id="N16" v-model="N16"><label for="N16">Summit Hill</label></div>
-				<div><input type="checkbox" id="N17" v-model="N17"><label for="N17">Capitol River</label></div>
-				<input type="checkbox" id="checkbox" app.v-model="checked">
-			</div>
-		</div>	
-		<div id=scrollbar >
-			<table class="table table-sm table-bordered table-responsive;">
-				<thead class="thead-info">
-					<tr>
-						<th scope="col" class="small table-info font-weight-bold">Case Number</th>
-						<th scope="col" class="small table-info font-weight-bold">Incident Type</th>
-						<th scope="col" class="small table-info font-weight-bold">Incident</th>
-						<th scope="col" class="small table-info font-weight-bold">Date</th>
-						<th scope="col" class="small table-info font-weight-bold">Time</th>
-						<th scope="col" class="small table-info font-weight-bold">Police Grid</th>
-						<th scope="col" class="small table-info font-weight-bold">Block</th>
-						<th scope="col" class="small table-info font-weight-bold">Neighborhood Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!--violent crimes-->
-					<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents " 
-					v-if="(incident.code < 300 || (incident.code < 500 && incident.code >= 400) || 
-					(incident.code < 900 && incident.code > 800)) && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#ff5447"> 
-						<td>{{key}}</td>
-						<td>{{app.codes['C'+incident.code]}}</td> 
-						<td>{{incident.incident}}</td>
-						<td>{{incident.date}}</td>
-						<td>{{incident.time}}</td>
-						<td>{{incident.police_grid}}</td>
-						<td>{{incident.block}}</td>
-						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
-					</tr>
+	<div id="app">
+		<div class="row">
+			<div class="col-1"> 
+				<button class="accordion accordion btn-sm btn-info dropdown-toggle">Neighborhoods</button>
+				<div class="panel">
+					<div class="vertical-checkbox" id="app">
+						<div><input type="checkbox" id="N1" v-model="N1"><label for="N1">Conway/Battlecreek/Highwood</label></div>
+						<div><input type="checkbox" id="N2" v-model="N2"><label for="N2">Greater East Side</label></div>
+						<div><input type="checkbox" id="N3" v-model="N3"><label for="N3">West Side</label></div>
+						<div><input type="checkbox" id="N4" v-model="N4"><label for="N4">Dayton's Bluff</label></div>
+						<div><input type="checkbox" id="N5" v-model="N5"><label for="N5">Payne/Phalen</label></div>
+						<div><input type="checkbox" id="N6" v-model="N6"><label for="N6">North End</label></div>
+						<div><input type="checkbox" id="N7" v-model="N7"><label for="N7">Thomas/Dale(Frogtown)</label></div>
+						<div><input type="checkbox" id="N8" v-model="N8"><label for="N8">Summit/University</label></div>
+						<div><input type="checkbox" id="N9" v-model="N9"><label for="N9">West Seventh</label></div>
+						<div><input type="checkbox" id="N10" v-model="N10"><label for="N10">Como</label></div>
+						<div><input type="checkbox" id="N11" v-model="N11"><label for="N11">Hamline/Midway</label></div>
+						<div><input type="checkbox" id="N12" v-model="N12"><label for="N12">St. Anthony's Park</label></div>
+						<div><input type="checkbox" id="N13" v-model="N13"><label for="N13">Union Park</label></div>
+						<div><input type="checkbox" id="N14" v-model="N14"><label for="N14">Macalester-Groveland</label></div>
+						<div><input type="checkbox" id="N15" v-model="N15"><label for="N15">Highland</label></div>
+						<div><input type="checkbox" id="N16" v-model="N16"><label for="N16">Summit Hill</label></div>
+						<div><input type="checkbox" id="N17" v-model="N17"><label for="N17">Capitol River</label></div>
+						<input type="checkbox" id="checkbox" app.v-model="checked">
+					</div><!--checkbox-->
+				</div><!--panel-->
+			</div><!--filter col-->
+			<div class="col-11">
+				<div id="mapid" style="z-index: 1; left: 3.5%; width: 95%;"></div>
+				<p id="coords" style="font-size:16px; z-index: 1;"></p>
+			</div><!--map col-->
+		</div> <!--row1-->
+		<div class="row">
+			<div class="col-9">
+				<div id=scrollbar >
+					<table class="table table-bordered table-responsive;">
+						<thead class="thead-info">
+							<tr>
+								<th scope="col" class="small table-info font-weight-bold">Case Number</th>
+								<th scope="col" class="small table-info font-weight-bold">Incident Type</th>
+								<th scope="col" class="small table-info font-weight-bold">Incident</th>
+								<th scope="col" class="small table-info font-weight-bold">Date</th>
+								<th scope="col" class="small table-info font-weight-bold">Time</th>
+								<th scope="col" class="small table-info font-weight-bold">Police Grid</th>
+								<th scope="col" class="small table-info font-weight-bold">Block</th>
+								<th scope="col" class="small table-info font-weight-bold">Neighborhood Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--violent crimes-->
+							<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents " 
+							v-if="(incident.code < 300 || (incident.code < 500 && incident.code >= 400) || 
+							(incident.code < 900 && incident.code > 800)) && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#ff5447"> 
+								<td>{{key}}</td>
+								<td>{{app.codes['C'+incident.code]}}</td> 
+								<td>{{incident.incident}}</td>
+								<td>{{incident.date}}</td>
+								<td>{{incident.time}}</td>
+								<td>{{incident.police_grid}}</td>
+								<td>{{incident.block}}</td>
+								<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
+							</tr>
 
-					<!--property crimes-->
-					<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents" 
-					v-if="((incident.code < 400 && incident.code >= 300) || (incident.code < 800 && incident.code >= 500) || 
-					(incident.code < 1500 && incident.code >= 900)) && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#47ceff">
-						<td>{{key}}</td>
-						<td>{{app.codes['C'+incident.code]}}</td> 
-						<td>{{incident.incident}}</td>
-						<td>{{incident.date}}</td>
-						<td>{{incident.time}}</td>
-						<td>{{incident.police_grid}}</td>
-						<td>{{incident.block}}</td>
-						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
-					</tr>
+							<!--property crimes-->
+							<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents" 
+							v-if="((incident.code < 400 && incident.code >= 300) || (incident.code < 800 && incident.code >= 500) || 
+							(incident.code < 1500 && incident.code >= 900)) && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#47ceff">
+								<td>{{key}}</td>
+								<td>{{app.codes['C'+incident.code]}}</td> 
+								<td>{{incident.incident}}</td>
+								<td>{{incident.date}}</td>
+								<td>{{incident.time}}</td>
+								<td>{{incident.police_grid}}</td>
+								<td>{{incident.block}}</td>
+								<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td> 
+							</tr>
 
-					<!--other crimes-->
-					<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents" 
-					v-if="incident.code >= 1800 && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
-					&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#47ff9a">
-						<td>{{key}}</td>
-						<td>{{app.codes['C'+incident.code]}}</td>
-						<td>{{incident.incident}}</td>
-						<td>{{incident.date}}</td>
-						<td>{{incident.time}}</td>
-						<td>{{incident.police_grid}}</td>
-						<td>{{incident.block}}</td>
-						<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+							<!--other crimes-->
+							<tr @click="getData(incident)" style="cursor:pointer" v-for="(incident, key) in incidents" 
+							v-if="incident.code >= 1800 && app.neighborhood_places['N'+incident.neighborhood_number][0] > bounds._southWest.lat 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][0] < bounds._northEast.lat && app.neighborhood_places['N'+incident.neighborhood_number][1] > bounds._southWest.lng 
+							&& app.neighborhood_places['N'+incident.neighborhood_number][1] < bounds._northEast.lng" bgcolor="#47ff9a">
+								<td>{{key}}</td>
+								<td>{{app.codes['C'+incident.code]}}</td>
+								<td>{{incident.incident}}</td>
+								<td>{{incident.date}}</td>
+								<td>{{incident.time}}</td>
+								<td>{{incident.police_grid}}</td>
+								<td>{{incident.block}}</td>
+								<td>{{app.neighborhood_names['N'+incident.neighborhood_number]}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><!--scrollbar-->
+			</div><!--table col-->
+			<div class="col-3">
+				<div id="legend" class="center">
+					<table class="table table-sm table-responsive;">
+						<thead>
+							<tr>
+								<th scope="col" class="table-info font-weight-bold">Type of Crime</th>
+								<th scope="col" class="table-info font-weight-bold">Color</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="tableRow">
+								<td>Violent Crime</td>
+								<td bgcolor="#ff5447"></td>
+							</tr>
+							<tr class="tableRow">
+								<td>Property Crime</td>
+								<td bgcolor="#47ceff"></td>
+							</tr>
+							<tr class="tableRow">
+								<td>Other Crime</td>
+								<td bgcolor="#47ff9a">
+							</tr>
+						</tbody>
+					</table>
+				</div><!--legend-->
+			</div><!--legend col-->
+		</div><!--row 2-->
+	</div><!--app-->
 	
-		<div id="legend" style="position: absolute; bottom: 0; left: 50%; right: 0; top: 85.5%">
-		<table class="table table-sm table-responsive;" style="right: 50%; top: 50%">
-			<thead>
-				<tr>
-					<th scope="col" class="table-info font-weight-bold" width="20px">Type of Crime</th>
-					<th scope="col" class="table-info font-weight-bold" width="10px">Color</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="tableRow">
-					<td>Violent Crime</td>
-					<td bgcolor="#ff5447"></td>
-				</tr>
-				<tr class="tableRow">
-					<td>Property Crime</td>
-					<td bgcolor="#47ceff"></td>
-				</tr>
-				<tr class="tableRow">
-					<td>Other Crime</td>
-					<td bgcolor="#47ff9a">
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<p id="coords" style="position: absolute; bottom: 0; font-size:16px; z-index: 1"></p>
-
 	<script>	
 		let bounds;
 		let crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

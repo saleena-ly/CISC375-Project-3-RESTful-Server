@@ -25,7 +25,7 @@
 	overflow: hidden;
 } 
 #mapid {
-	height: 91vh;
+	height: 90vh;
 }
 
 #scrollbar
@@ -44,7 +44,9 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	width: 50%;
+	margin-top: auto;
+	margin-bottom: auto;
+	width: 75%;
 }
 
 .my-custom-icon{
@@ -67,4 +69,8 @@
 	width: 200px;
 	height: 30px;
 	padding: 18px;
+}
+
+td{
+	font-size: small;
 }
