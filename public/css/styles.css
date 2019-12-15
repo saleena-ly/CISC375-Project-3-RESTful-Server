@@ -55,7 +55,7 @@
 #scrollbar
 {
 	height: 91vh;
-	overflow: scroll
+	overflow: scroll;
 }
 
 .dates {

@@ -170,11 +170,11 @@
 			<input type="text" class="dates" name="end_date" style="top: 28px; left: 905px">
 	</form>
 		
-	<div id="mapid" style="z-index: 1; position: absolute; top: 80px; left: 0; bottom: 0; right: 50%"></div>
+	<div id="mapid" style="z-index: 1; position: absolute; top: 80px; left: 0; right: 50%"></div>
 		
 	<div id="app"  style="position: absolute; left: 50%; top: 80px; right:0%"> 
 		<div id=scrollbar>
-			<table class="table table-sm table-bordered table-responsive;" style="right: 0%;">
+			<table class="table table-sm table-bordered table-responsive" style="left:0">
 				<thead>
 					<tr>
 						<th scope="col" class="small table-info font-weight-bold">Case Number</th>
@@ -191,7 +191,7 @@
 					<!--violent crimes-->
 					<tr class="tableRow" @click="getData(incident.block)" style="cursor:pointer" v-for="(incident, key) in incidents" 
 					v-if="(incident.code < 300 || (incident.code < 500 && incident.code >= 400) || 
-					(incident.code < 900 && incident.code > 800))" bgcolor="#ff5447"> 
+					(incident.code < 900 && incident.code > 800)) && app.getNeighborhood(incident.neighborhood_number)" bgcolor="#ff5447"> 
 						<td>{{key}}</td>
 						<td>{{app.codes['C'+incident.code]}}</td> 
 						<td>{{incident.incident}}</td>
@@ -233,8 +233,8 @@
 		</div>
 	</div>
 
-	<div id="legend" style="position: absolute; left: 50%; top: 605px; right:0%">
-		<table class="table table-sm table-responsive;" style="right: 50%; top: 50%" width="20">
+	<div id="legend" style="position: absolute; bottom: 0; left: 50%; right: 0">
+		<table class="table table-sm table-responsive;" style="right: 50%; top: 50%">
 			<thead>
 				<tr>
 					<th scope="col" class="table-info font-weight-bold" width="20px">Type of Crime</th>
@@ -252,11 +252,12 @@
 				</tr>
 				<tr class="tableRow">
 					<td>Other Crime</td>
-					<td bgcolor="#47ff9a"
+					<td bgcolor="#47ff9a">
 				</tr>
 			</tbody>
 		</table>
 	</div>
+			
 
 	<script>		
 		let crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -281,7 +282,26 @@
 			data: {
 				incidents: {},
 				codes: {},
-				neighborhood_names: {},
+				neighborhood_names: {},	
+				neighborhood_places: {
+					"N1": [44.922261, -93.027227],
+					"N2": [44.977473, -93.025327],
+					"N3": [44.931064, -93.080664],
+					"N4": [44.956252, -93.059503],
+					"N5": [44.976702, -93.068935],
+					"N6": [44.977405, -93.112685],
+					"N7": [44.960065, -93.120456],
+					"N8": [44.948733, -93.127346],
+					"N9": [44.930766, -93.119996],
+					"N10": [44.982184, -93.150126],
+					"N11": [44.966129, -93.161192],
+					"N12": [44.973303, -93.194188],
+					"N13": [44.948243, -93.174665],
+					"N14": [44.934211, -93.171586],
+					"N15": [44.910127, -93.170779],
+					"N16": [44.936824, -93.134851],
+					"N17": [44.950892, -93.094614]
+				},
 				checkedN1: false,
 				checkedN2: false,
 				checkedN3: false,
@@ -345,12 +365,18 @@
 		L.Control.geocoder().addTo(mymap);
 		
 		mymap.addEventListener('move', function() {
-			//console.log(mymap.getCenter());
-			//console.log(mymap.getBounds());
+			bounds = mymap.getBounds();
+	
+			
+			if(app.neighborhood_places['N1'][0] > bounds._southWest.lat && app.neighborhood_places['N1'][0] < bounds._northEast.lat && app.neighborhood_places['N1'][1] > bounds._southWest.lng && app.neighborhood_places['N1'][1] < bounds._northEast.lng){
+			console.log("HI");
+}				 
+			
+
+			 document.getElementById("coords").innerHTML = mymap.getCenter();
 		});
 		
 		function getData(data){
-			console.log(data.time);
 			var temp_string;
 			var temp_string2;
 			var m;
@@ -374,8 +400,6 @@
 				})
 			});
 			
-			var hi = 'https://nominatim.openstreetmap.org/search?q=ID&format=json';
-			console.log(hi);
 		}
 	</script>
 </body>
