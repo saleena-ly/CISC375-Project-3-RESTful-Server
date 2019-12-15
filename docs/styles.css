@@ -18,7 +18,6 @@
 /* Style the accordion panel. Note: hidden by default */
 .panel {
 	z-index:2; 
-	position: absolute; 
 	padding: 0 18px;
 	background-color: white;
 	display: none;
