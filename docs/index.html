@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -49,7 +49,7 @@
 		function Init(crime_api_url) {
 			crime_api_url_global = crime_api_url;
 			
-			$.get(crime_api_url  + '/incidents?start_date=2019-10-1&end_date=2019-10-31', function(data){
+			$.get(crime_api_url  + '/incidents?start_date=2019-10-01&end_date=2019-10-31', function(data){
 				app.incidents = data;
 				for (var key in app.incidents) {
 					if (app.incidents.hasOwnProperty(key)) {
@@ -57,7 +57,143 @@
 					}
 				}
 
-				update_crime_markers();
+				let m1 = L.marker([44.922261, -93.027227]).bindPopup().addTo(mymap); //conway
+				let m2 = L.marker([44.977473, -93.025327]).bindPopup().addTo(mymap); //greater east side
+				let m3 = L.marker([44.931064, -93.080664]).bindPopup().addTo(mymap); //west side
+				let m4 = L.marker([44.956252, -93.059503]).bindPopup().addTo(mymap); //dayton's bluff
+				let m5 = L.marker([44.976702, -93.068935]).bindPopup().addTo(mymap); //payne - phalen
+				let m6 = L.marker([44.977405, -93.112685]).bindPopup().addTo(mymap); //north end
+				let m7 = L.marker([44.960065, -93.120456]).bindPopup().addTo(mymap); //thomas - dale
+				let m8 = L.marker([44.948733, -93.127346]).bindPopup().addTo(mymap); //summit - university
+				let m9 = L.marker([44.930766, -93.119996]).bindPopup().addTo(mymap); //west seventh
+				let m10 = L.marker([44.982184, -93.150126]).bindPopup().addTo(mymap); //como
+				let m11 = L.marker([44.966129, -93.161192]).bindPopup().addTo(mymap); //hamline -midway
+				let m12 = L.marker([44.973303, -93.194188]).bindPopup().addTo(mymap); //st. anthony
+				let m13 = L.marker([44.948243, -93.174665]).bindPopup().addTo(mymap); //union park
+				let m14 = L.marker([44.934211, -93.171586]).bindPopup().addTo(mymap); //macalester - groveland
+				let m15 = L.marker([44.910127, -93.170779]).bindPopup().addTo(mymap); //highland
+				let	m16 = L.marker([44.936824, -93.134851]).bindPopup().addTo(mymap); //summit hill
+				let	m17 = L.marker([44.950892, -93.094614]).bindPopup().addTo(mymap); //capitol river
+		
+				m1.on('mouseover', function(event){
+					m1.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[0].toString());
+				})
+				m1.on('mouseout', function(event){
+					m1.closePopup();
+				});
+				m2.on('mouseover', function(event){
+					m2.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[1].toString());
+				})
+				m2.on('mouseout', function(event){
+					m2.closePopup();
+				});
+				m3.on('mouseover', function(event){
+					m3.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[2].toString());
+				})
+				m3.on('mouseout', function(event){
+					m3.closePopup();
+				});
+				m4.on('mouseover', function(event){
+					m4.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[3].toString());
+				})
+				m4.on('mouseout', function(event){
+					m4.closePopup();
+				});
+				m5.on('mouseover', function(event){
+					m5.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[4].toString());
+				})
+				m5.on('mouseout', function(event){
+					m5.closePopup();
+				});
+				m6.on('mouseover', function(event){
+					m6.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[5].toString());
+				})
+				m6.on('mouseout', function(event){
+					m6.closePopup();
+				});
+				m7.on('mouseover', function(event){
+					m7.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[6].toString());
+				})
+				m7.on('mouseout', function(event){
+					m7.closePopup();
+				});
+				m8.on('mouseover', function(event){
+					m8.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[7].toString());
+				})
+				m8.on('mouseout', function(event){
+					m8.closePopup();
+				});
+				m9.on('mouseover', function(event){
+					m9.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[8].toString());
+				})
+				m9.on('mouseout', function(event){
+					m9.closePopup();
+				});
+				m10.on('mouseover', function(event){
+					m10.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[9].toString());
+				})
+				m10.on('mouseout', function(event){
+					m10.closePopup();
+				});
+				m11.on('mouseover', function(event){
+					m11.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[10].toString());
+				})
+				m11.on('mouseout', function(event){
+					m11.closePopup();
+				});
+				m12.on('mouseover', function(event){
+					m12.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[11].toString());
+				})
+				m12.on('mouseout', function(event){
+					m12.closePopup();
+				});
+				m13.on('mouseover', function(event){
+					m13.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[12].toString());
+				})
+				m13.on('mouseout', function(event){
+					m13.closePopup();
+				});
+				m14.on('mouseover', function(event){
+					m14.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[13].toString());
+				})
+				m14.on('mouseout', function(event){
+					m14.closePopup();
+				});
+				m15.on('mouseover', function(event){
+					m15.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[14].toString());
+				})
+				m15.on('mouseout', function(event){
+					m15.closePopup();
+				});
+				m16.on('mouseover', function(event){
+					m16.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[15].toString());
+				})
+				m16.on('mouseout', function(event){
+					m16.closePopup();
+				});
+				m17.on('mouseover', function(event){
+					m17.openPopup();
+					event.target.getPopup().setContent("Crimes: " + crime_arr[16].toString());
+				})
+				m17.on('mouseout', function(event){
+					m17.closePopup();
+				});
 			});
 			$.get(crime_api_url + '/codes', function(data){
 				app.codes = data;
@@ -65,8 +201,6 @@
 			$.get(crime_api_url + '/neighborhoods', function(data){
 				app.neighborhood_names = data;
 			});
-
-
         }
     </script>
 
@@ -240,24 +374,7 @@
 	
 	<script>	
 		let bounds;
-		let crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		let m1 = L.marker([44.922261, -93.027227]).bindPopup().addTo(mymap); //conway
-		let m2 = L.marker([44.977473, -93.025327]).bindPopup().addTo(mymap); //greater east side
-		let m3 = L.marker([44.931064, -93.080664]).bindPopup().addTo(mymap); //west side
-		let m4 = L.marker([44.956252, -93.059503]).bindPopup().addTo(mymap); //dayton's bluff
-		let m5 = L.marker([44.976702, -93.068935]).bindPopup().addTo(mymap); //payne - phalen
-		let m6 = L.marker([44.977405, -93.112685]).bindPopup().addTo(mymap); //north end
-		let m7 = L.marker([44.960065, -93.120456]).bindPopup().addTo(mymap); //thomas - dale
-		let m8 = L.marker([44.948733, -93.127346]).bindPopup().addTo(mymap); //summit - university
-		let m9 = L.marker([44.930766, -93.119996]).bindPopup().addTo(mymap); //west seventh
-		let m10 = L.marker([44.982184, -93.150126]).bindPopup().addTo(mymap); //como
-		let m11 = L.marker([44.966129, -93.161192]).bindPopup().addTo(mymap); //hamline -midway
-		let m12 = L.marker([44.973303, -93.194188]).bindPopup().addTo(mymap); //st. anthony
-		let m13 = L.marker([44.948243, -93.174665]).bindPopup().addTo(mymap); //union park
-		let m14 = L.marker([44.934211, -93.171586]).bindPopup().addTo(mymap); //macalester - groveland
-		let m15 = L.marker([44.910127, -93.170779]).bindPopup().addTo(mymap); //highland
-		let	m16 = L.marker([44.936824, -93.134851]).bindPopup().addTo(mymap); //summit hill
-		let	m17 = L.marker([44.950892, -93.094614]).bindPopup().addTo(mymap); //capitol river
+		let crime_arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 		app = new Vue({
 			el: "#app",
@@ -342,7 +459,7 @@
 		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',			
 			maxZoom: 18,
-			minZoom: 11,
+			minZoom: 13,
 			trackResize: true,
 			id: 'mapbox/streets-v11',
 			accessToken: 'pk.eyJ1Ijoia29jaDg2OTciLCJhIjoiY2szcnI5ZmhzMDk5ZTNtdWg2aGFneHA1aSJ9.uASUNV83v6H2Qr0QPfUkWw'
@@ -355,6 +472,7 @@
 		document.getElementById("start_date").addEventListener("change", function(){
 			$.get(crime_api_url_global  + '/incidents?start_date='+ document.getElementById("start_date").value +'&end_date=2019-10-31', function(data){
 				app.incidents = data;
+				crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 				for (var key in app.incidents) {
 					if (app.incidents.hasOwnProperty(key)) {
@@ -370,7 +488,8 @@
 		document.getElementById("end_date").addEventListener("change", function(){
 			$.get(crime_api_url_global  + '/incidents?start_date=2019-10-1&end_date=' + document.getElementById("end_date").value, function(data){
 				app.incidents = data;
-				
+				crime_arr =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 				for (var key in app.incidents) {
 					if (app.incidents.hasOwnProperty(key)) {
 						crime_arr[app.incidents[key].neighborhood_number - 1] = crime_arr[app.incidents[key].neighborhood_number - 1] + 1;
