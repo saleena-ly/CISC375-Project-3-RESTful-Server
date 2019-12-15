@@ -7,6 +7,7 @@
 
 #coords {
 	font-size:16px;
+	margin-left: 15%;
 }
 
 #scrollbar{
@@ -16,7 +17,7 @@
 
 .vertical-checkbox {
 	font-size: 13px;
-	position: absolute;
+	position: static;
 	width: 233px;
 	left: 15%;
 }
