@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -222,9 +222,9 @@
 		
 	<div id="app">
 		<div class="row">
-			<div class="col-1"> 
+			<div class="col-2"> 
 				<div class="vertical-checkbox">
-					<div><h4>Neighborhoods:</h4></div>
+					<div><h5>Neighborhoods:</h5></div>
 					<div><input type="checkbox" id="N1" v-model="N1"><label for="N1">Conway/Battlecreek/Highwood</label></div>
 					<div><input type="checkbox" id="N2" v-model="N2"><label for="N2">Greater East Side</label></div>
 					<div><input type="checkbox" id="N3" v-model="N3"><label for="N3">West Side</label></div>
@@ -242,7 +242,17 @@
 					<div><input type="checkbox" id="N15" v-model="N15"><label for="N15">Highland</label></div>
 					<div><input type="checkbox" id="N16" v-model="N16"><label for="N16">Summit Hill</label></div>
 					<div><input type="checkbox" id="N17" v-model="N17"><label for="N17">Capitol River</label></div>
-					<div><h4>Incident Types:</h4></div>
+				</div><!--checkbox-->
+			</div><!--filter col-->
+			<div class="col-10">
+				<div id="mapid"></div>
+				<p id="coords" style="text-align: end;"></p>
+			</div><!--map col-->
+		</div> <!--row1-->
+		<div class="row">
+			<div class="col-2">
+				<div class="vertical-checkbox">
+					<div><h5>Incident Types:</h5></div>
 					<div><input type="checkbox" id="C100" v-model="C100"><label for="C100">Murder</label></div>
 					<div><input type="checkbox" id="C200" v-model="C200"><label for="C200">Rape</label></div>
 					<div><input type="checkbox" id="C300" v-model="C300"><label for="C300">Robbery</label></div>
@@ -269,27 +279,21 @@
 							value="2019-10-31"
 							min="2008-08-14" max="2019-10-31">
 					</div>
-				</div><!--checkbox-->
-			</div><!--filter col-->
-			<div class="col-11">
-				<div id="mapid"></div>
-				<p id="coords"></p>
-			</div><!--map col-->
-		</div> <!--row1-->
-		<div class="row" style=>
-			<div class="col-9">
+				</div>
+			</div>
+			<div class="col-8">
 				<div id=scrollbar >
 					<table class="table table-bordered table-responsive;">
 						<thead class="thead-info">
 							<tr>
-								<th scope="col" class="small table-info font-weight-bold">Case Number</th>
-								<th scope="col" class="small table-info font-weight-bold">Incident Type</th>
-								<th scope="col" class="small table-info font-weight-bold">Incident</th>
-								<th scope="col" class="small table-info font-weight-bold">Date</th>
-								<th scope="col" class="small table-info font-weight-bold">Time</th>
-								<th scope="col" class="small table-info font-weight-bold">Police Grid</th>
-								<th scope="col" class="small table-info font-weight-bold">Block</th>
-								<th scope="col" class="small table-info font-weight-bold">Neighborhood Name</th>
+								<th scope="col" class="table-info font-weight-bold">Case Number</th>
+								<th scope="col" class="table-info font-weight-bold">Incident Type</th>
+								<th scope="col" class="table-info font-weight-bold">Incident</th>
+								<th scope="col" class="table-info font-weight-bold">Date</th>
+								<th scope="col" class="table-info font-weight-bold">Time</th>
+								<th scope="col" class="table-info font-weight-bold">Police Grid</th>
+								<th scope="col" class="table-info font-weight-bold">Block</th>
+								<th scope="col" class="table-info font-weight-bold">Neighborhood Name</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -343,8 +347,8 @@
 					</table>
 				</div><!--scrollbar-->
 			</div><!--table col-->
-			<div class="col-3">
-				<div id="legend" class="center">
+			<div class="col-2">
+				<div id="legend">
 					<table class="table table-sm table-responsive;">
 						<thead>
 							<tr>

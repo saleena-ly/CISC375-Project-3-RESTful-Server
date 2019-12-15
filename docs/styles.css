@@ -11,7 +11,7 @@
 }
 
 #scrollbar{
-	height: 50vh;
+	height: 90vh;
 	overflow: scroll
 }
 
@@ -24,4 +24,17 @@
 
 td{
 	font-size: small;
+}
+
+label{
+	font-size: small;
+}
+
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+	width: 75%;
 }
